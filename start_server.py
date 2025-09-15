@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
-Windows-compatible server startup script
+Cross-platform server startup script for Railway deployment
 """
 import os
 import sys
@@ -12,15 +12,17 @@ if __name__ == "__main__":
     django.setup()
     
     # Check if we're on Railway (production)
-    if os.environ.get('RAILWAY_ENVIRONMENT'):
+    if os.environ.get('RAILWAY_ENVIRONMENT') or os.environ.get('PORT'):
         # Use gunicorn for production
         try:
             import gunicorn.app.wsgiapp as wsgi
-            sys.argv = ['gunicorn', 'backend.wsgi:application', '--bind', f'0.0.0.0:{os.environ.get("PORT", "8000")}', '--workers', '3']
+            port = os.environ.get('PORT', '8000')
+            sys.argv = ['gunicorn', 'backend.wsgi:application', '--bind', f'0.0.0.0:{port}', '--workers', '3', '--timeout', '120']
             wsgi.run()
         except ImportError:
             # Fallback to Django dev server
-            sys.argv = ['manage.py', 'runserver', f'0.0.0.0:{os.environ.get("PORT", "8000")}']
+            port = os.environ.get('PORT', '8000')
+            sys.argv = ['manage.py', 'runserver', f'0.0.0.0:{port}']
             execute_from_command_line(sys.argv)
     else:
         # Use Django dev server for local development
