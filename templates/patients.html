@@ -1,0 +1,274 @@
+<!-- Patient Management Section -->
+<div class="animate-fade-in">
+    <div class="content-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title">
+                <i class="fas fa-users me-2 text-primary"></i>Patient Management
+            </h3>
+            <button class="btn btn-primary" ng-click="showNewPatientForm = !showNewPatientForm">
+                <i class="fas fa-plus me-2"></i>Add New Patient
+            </button>
+        </div>
+
+        <!-- New Patient Form -->
+        <div ng-show="showNewPatientForm" class="card-body" style="background: var(--light-beige);">
+            <h4 class="mb-4">
+                <i class="fas fa-user-plus me-2"></i>New Patient Registration
+            </h4>
+            <form ng-submit="addPatient()" class="row g-3">
+                <!-- Basic Information -->
+                <div class="col-md-6">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" class="form-control" ng-model="newPatient.name" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Age *</label>
+                    <input type="number" class="form-control" ng-model="newPatient.age" min="1" max="120" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Gender *</label>
+                    <select class="form-select" ng-model="newPatient.gender" required>
+                        <option value="">Select...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="col-md-6">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" ng-model="newPatient.phone" placeholder="+91-9876543210">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Occupation</label>
+                    <input type="text" class="form-control" ng-model="newPatient.occupation" placeholder="e.g., Software Engineer">
+                </div>
+
+                <!-- Physical Parameters -->
+                <div class="col-md-3">
+                    <label class="form-label">Height (cm)</label>
+                    <input type="number" class="form-control" ng-model="newPatient.height" min="100" max="250">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Weight (kg)</label>
+                    <input type="number" class="form-control" ng-model="newPatient.weight" min="20" max="200">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">BMI</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" 
+                               ng-model="newPatient.bmi" 
+                               readonly placeholder="Auto-calculated">
+                        <span class="input-group-text" ng-if="newPatient.bmiCategory" 
+                              ng-class="{
+                                'text-success': newPatient.bmiCategory === 'Normal weight',
+                                'text-warning': newPatient.bmiCategory === 'Overweight',
+                                'text-danger': newPatient.bmiCategory === 'Obese',
+                                'text-info': newPatient.bmiCategory === 'Underweight'
+                              }">
+                            {{newPatient.bmiCategory}}
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Prakriti (Constitution)</label>
+                    <select class="form-select" ng-model="newPatient.prakriti">
+                        <option value="">Select...</option>
+                        <option value="Vata">Vata</option>
+                        <option value="Pitta">Pitta</option>
+                        <option value="Kapha">Kapha</option>
+                        <option value="Vata-Pitta">Vata-Pitta</option>
+                        <option value="Pitta-Kapha">Pitta-Kapha</option>
+                        <option value="Vata-Kapha">Vata-Kapha</option>
+                    </select>
+                </div>
+
+                <!-- Lifestyle Parameters -->
+                <div class="col-md-3">
+                    <label class="form-label">Dietary Preference</label>
+                    <select class="form-select" ng-model="newPatient.diet">
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Non-Vegetarian">Non-Vegetarian</option>
+                        <option value="Vegan">Vegan</option>
+                        <option value="Jain">Jain</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Meal Frequency</label>
+                    <select class="form-select" ng-model="newPatient.mealFrequency">
+                        <option value="2">2 times/day</option>
+                        <option value="3">3 times/day</option>
+                        <option value="4">4 times/day</option>
+                        <option value="5">5 times/day</option>
+                        <option value="6">6 times/day</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Water Intake (L/day)</label>
+                    <input type="number" step="0.5" class="form-control" ng-model="newPatient.waterIntake" min="1" max="10">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Activity Level</label>
+                    <select class="form-select" ng-model="newPatient.activityLevel">
+                        <option value="Low">Low</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="High">High</option>
+                        <option value="Very High">Very High</option>
+                    </select>
+                </div>
+
+                <!-- Health Parameters -->
+                <div class="col-md-4">
+                    <label class="form-label">Bowel Movement</label>
+                    <select class="form-select" ng-model="newPatient.bowelMovement">
+                        <option value="Regular">Regular</option>
+                        <option value="Constipated">Constipated</option>
+                        <option value="Loose">Loose</option>
+                        <option value="Irregular">Irregular</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Sleep Hours</label>
+                    <input type="number" class="form-control" ng-model="newPatient.sleepHours" min="4" max="12">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Stress Level</label>
+                    <select class="form-select" ng-model="newPatient.stressLevel">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+
+                <!-- Medical Information -->
+                <div class="col-md-6">
+                    <label class="form-label">Medical History</label>
+                    <textarea class="form-control" rows="3" ng-model="newPatient.medicalHistory" 
+                              placeholder="Previous medical conditions, surgeries, etc."></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Current Medications</label>
+                    <textarea class="form-control" rows="3" ng-model="newPatient.currentMedications" 
+                              placeholder="List current medications and supplements"></textarea>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Allergies</label>
+                    <textarea class="form-control" rows="2" ng-model="newPatient.allergies" 
+                              placeholder="Food allergies, drug allergies, etc."></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Exercise Frequency</label>
+                    <input type="text" class="form-control" ng-model="newPatient.exerciseFrequency" 
+                           placeholder="e.g., 3 times per week">
+                </div>
+
+                <!-- Form Actions -->
+                <div class="col-12">
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Patient
+                        </button>
+                        <button type="button" class="btn btn-secondary" ng-click="showNewPatientForm = false">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Patients Table -->
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age/Gender</th>
+                            <th>Prakriti</th>
+                            <th>BMI</th>
+                            <th>Diet Type</th>
+                            <th>Last Visit</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="patient in patients" class="align-middle">
+                            <td><strong>#{{patient.id}}</strong></td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar-circle me-2">
+                                        {{patient.name.charAt(0)}}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">{{patient.name}}</div>
+                                        <small class="text-muted">{{patient.phone}}</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{patient.age}} / {{patient.gender}}</td>
+                            <td>
+                                <span class="badge" ng-class="{
+                                    'bg-primary': patient.prakriti.includes('Vata'),
+                                    'bg-danger': patient.prakriti.includes('Pitta'),
+                                    'bg-success': patient.prakriti.includes('Kapha')
+                                }">{{patient.prakriti}}</span>
+                            </td>
+                            <td>
+                                <span ng-if="patient.bmi">
+                                    {{patient.bmi}}
+                                    <small ng-class="getBMICategory(patient.bmi).class">
+                                        ({{getBMICategory(patient.bmi).text}})
+                                    </small>
+                                </span>
+                                <span ng-if="!patient.bmi" class="text-muted">-</span>
+                            </td>
+                            <td>{{patient.diet}}</td>
+                            <td>{{patient.lastVisit}}</td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary" ng-click="viewPatient(patient)" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-outline-success" ng-click="createDietChart(patient)" title="Create Diet Chart">
+                                        <i class="fas fa-file-medical"></i>
+                                    </button>
+                                    <button class="btn btn-outline-info" ng-click="editPatient(patient)" title="Edit Patient">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-orange), var(--secondary-teal));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.table th {
+    border-top: none;
+    border-bottom: 2px solid #e9ecef;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--light-beige);
+}
+</style>

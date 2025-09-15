@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayurvedic Dosha Detection System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .menu-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .assessment-form {
+            display: none;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .question-counter {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .option-item:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .option-item.selected {
+            border-color: #667eea;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .option-item input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            transition: width 0.3s ease;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .prev-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .next-btn, .submit-btn {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .results-section {
+            display: none;
+            text-align: center;
+        }
+
+        .dosha-result {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .dosha-name {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .confidence-score {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+        }
+
+        .dosha-bars {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .dosha-bar {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        .dosha-label {
+            width: 120px;
+            text-align: left;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .bar-container {
+            flex: 1;
+            background: #e9ecef;
+            height: 20px;
+            border-radius: 10px;
+            margin: 0 15px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .percentage {
+            width: 50px;
+            text-align: right;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .guidance-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .guidance-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .guidance-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .guidance-list li {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f1aeb5;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .option-item {
+            animation: fadeInUp 0.3s ease-out forwards;
+        }
+
+        .option-item:nth-child(1) { animation-delay: 0.1s; }
+        .option-item:nth-child(2) { animation-delay: 0.2s; }
+        .option-item:nth-child(3) { animation-delay: 0.3s; }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .option-item {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🕉️ Ayurvedic Dosha Detection</h1>
+            <p>Discover Your Constitutional Type Through Ancient Wisdom</p>
+        </div>
+
+        <div class="main-card">
+            <div class="card-header">
+                <h2>Constitutional Assessment System</h2>
+            </div>
+            <div class="card-content">
+                <div id="main-menu">
+                    <div class="menu-buttons">
+                        <button class="menu-btn" onclick="startAssessment('comprehensive')">
+                            <h3>📋 Comprehensive Assessment</h3>
+                            <p>All 20 characteristics - Most accurate</p>
+                        </button>
+                        <button class="menu-btn" onclick="startAssessment('quick')">
+                            <h3>⚡ Quick Assessment</h3>
+                            <p>Top 8 characteristics - 5 minutes</p>
+                        </button>
+                        <button class="menu-btn" onclick="showInfo()">
+                            <h3>📊 System Information</h3>
+                            <p>Learn about the assessment</p>
+                        </button>
+                        <button class="menu-btn" onclick="showAbout()">
+                            <h3>🧘 About Ayurveda</h3>
+                            <p>Understanding Prakriti</p>
+                        </button>
+                    </div>
+
+                    <div id="system-status"></div>
+
+                    <div class="guidance-section">
+                        <h3 class="guidance-title">What This Assessment Analyzes:</h3>
+                        <ul class="guidance-list">
+                            <li><strong>Physical Build:</strong> Body size, weight patterns, bone structure</li>
+                            <li><strong>Skin & Complexion:</strong> Texture, feel, color characteristics</li>
+                            <li><strong>Hair Features:</strong> Color, texture, appearance</li>
+                            <li><strong>Facial Features:</strong> Eyes, nose, lips, cheeks structure</li>
+                            <li><strong>Physiological Traits:</strong> Appetite patterns, taste preferences</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="assessment-form" class="assessment-form">
+                    <div id="progress-section">
+                        <div class="question-counter">
+                            <span id="current-question">1</span> of <span id="total-questions">20</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <div id="question-container">
+                        <!-- Questions will be populated here -->
+                    </div>
+
+                    <div class="nav-buttons">
+                        <button class="nav-btn prev-btn" id="prev-btn" onclick="previousQuestion()">Previous</button>
+                        <button class="nav-btn next-btn" id="next-btn" onclick="nextQuestion()">Next</button>
+                        <button class="nav-btn submit-btn hidden" id="submit-btn" onclick="submitAssessment()">Get Results</button>
+                    </div>
+                </div>
+
+                <div id="loading-section" class="loading">
+                    <div class="spinner"></div>
+                    <h3>Analyzing Your Constitution...</h3>
+                    <p>Processing your responses using Ayurvedic principles</p>
+                </div>
+
+                <div id="results-section" class="results-section">
+                    <!-- Results will be populated here -->
+                </div>
+
+                <div id="info-section" class="hidden">
+                    <h3>Assessment Information</h3>
+                    <div class="guidance-section">
+                        <p><strong>Dataset:</strong> This system uses machine learning trained on 1200+ Ayurvedic constitutional assessments.</p>
+                        <p><strong>Accuracy:</strong> Both Decision Tree and Random Forest models achieve high accuracy on test data.</p>
+                        <p><strong>Features:</strong> Analyzes 20 physical and physiological characteristics.</p>
+                        <p><strong>Constitutional Types:</strong> Identifies Vata, Pitta, Kapha, and dual-dosha combinations.</p>
+                    </div>
+                    <button class="nav-btn next-btn" onclick="showMainMenu()">Back to Menu</button>
+                </div>
+
+                <div id="about-section" class="hidden">
+                    <h3>Understanding Ayurvedic Prakriti</h3>
+                    <div class="guidance-section">
+                        <h4>The Three Doshas:</h4>
+                        <ul class="guidance-list">
+                            <li><strong>Vata (Air + Space):</strong> Movement, circulation, nervous system</li>
+                            <li><strong>Pitta (Fire + Water):</strong> Metabolism, digestion, transformation</li>
+                            <li><strong>Kapha (Earth + Water):</strong> Structure, immunity, lubrication</li>
+                        </ul>
+                        <p><strong>Prakriti</strong> is your natural constitution determined at conception. Understanding your Prakriti helps in:</p>
+                        <ul class="guidance-list">
+                            <li>Choosing appropriate diet and lifestyle</li>
+                            <li>Preventing disease through proper balance</li>
+                            <li>Optimizing physical and mental well-being</li>
+                        </ul>
+                    </div>
+                    <button class="nav-btn next-btn" onclick="showMainMenu()">Back to Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Complete assessment data with all 20 characteristics
+        const assessmentData = {
+            comprehensive: [
+                {
+                    question: "Body Size",
+                    options: ["Medium", "Slim", "Large"]
+                },
+                {
+                    question: "Body Weight",
+                    options: [
+                        "Moderate - no difficulties in gaining or losing weight",
+                        "Low - difficulties in gaining weight", 
+                        "Heavy - difficulties in losing weight"
+                    ]
+                },
+                {
+                    question: "Height",
+                    options: ["Average", "Short", "Tall"]
+                },
+                {
+                    question: "Bone Structure",
+                    options: [
+                        "Large, broad shoulders, heavy bone structure",
+                        "Medium bone structure",
+                        "Light, Small bones, prominent joints"
+                    ]
+                },
+                {
+                    question: "Complexion",
+                    options: [
+                        "White, pale, tans easily",
+                        "Fair-skin sunburns easily",
+                        "Dark-Complexion, tans easily"
+                    ]
+                },
+                {
+                    question: "General feel of skin",
+                    options: [
+                        "Dry and thin, cool to touch, rough",
+                        "Smooth and warm, oily T-zone",
+                        "Thick and moist/greasy, cold"
+                    ]
+                },
+                {
+                    question: "Texture of Skin", 
+                    options: [
+                        "Dry, pigments and aging",
+                        "Oily",
+                        "Freckles, many moles, redness and rashes"
+                    ]
+                },
+                {
+                    question: "Hair Color",
+                    options: [
+                        "Black/Brown, dull",
+                        "Red, light brown, yellow", 
+                        "Brown"
+                    ]
+                },
+                {
+                    question: "Appearance of Hair",
+                    options: [
+                        "Straight, oily",
+                        "Dry, black, knotted, brittle",
+                        "Thick, curly"
+                    ]
+                },
+                {
+                    question: "Shape of face",
+                    options: [
+                        "Long, angular, thin",
+                        "Large, round, full",
+                        "Heart-shaped, pointed chin"
+                    ]
+                },
+                {
+                    question: "Eyes",
+                    options: [
+                        "Medium-sized, penetrating, light-sensitive eyes",
+                        "Small, active, darting, dark eyes",
+                        "Big, round, beautiful, glowing eyes"
+                    ]
+                },
+                {
+                    question: "Eyelashes",
+                    options: [
+                        "Moderate eyelashes",
+                        "Scanty eyelashes", 
+                        "Thick/Fused eyelashes"
+                    ]
+                },
+                {
+                    question: "Blinking of Eyes",
+                    options: [
+                        "Moderate Blinking",
+                        "Excessive Blinking",
+                        "More or less stable"
+                    ]
+                },
+                {
+                    question: "Cheeks",
+                    options: [
+                        "Wrinkled, Sunken",
+                        "Smooth, Flat",
+                        "Rounded, Plump"
+                    ]
+                },
+                {
+                    question: "Nose",
+                    options: [
+                        "Rounded, Large open nostrils",
+                        "Crooked, Narrow",
+                        "Pointed, Average"
+                    ]
+                },
+                {
+                    question: "Teeth and gums",
+                    options: [
+                        "Big, White, Strong teeth, Healthy gums",
+                        "Medium-sized teeth, Reddish gums",
+                        "Irregular, Protruding teeth, Receding gums"
+                    ]
+                },
+                {
+                    question: "Lips",
+                    options: [
+                        "Tight, thin, dry lips which chaps easily",
+                        "Lips are soft, medium-sized",
+                        "Lips are large, soft, pink, and full"
+                    ]
+                },
+                {
+                    question: "Nails",
+                    options: [
+                        "Thick, Oily, Smooth, Polished",
+                        "Dry, Rough, Brittle, Break",
+                        "Sharp, Flexible, Pink, Lustrous"
+                    ]
+                },
+                {
+                    question: "Appetite", 
+                    options: [
+                        "Slow but steady",
+                        "Strong, Unbearable",
+                        "Irregular, Scanty"
+                    ]
+                },
+                {
+                    question: "Liking tastes",
+                    options: [
+                        "Sweet / Sour / Salty",
+                        "Sweet / Bitter / Astringent",
+                        "Pungent / Bitter / Astringent"
+                    ]
+                }
+            ]
+        };
+
+        // Quick assessment with top 8 most important features
+        assessmentData.quick = [
+            assessmentData.comprehensive[1], // Body Weight
+            assessmentData.comprehensive[18], // Appetite  
+            assessmentData.comprehensive[3], // Bone Structure
+            assessmentData.comprehensive[13], // Cheeks
+            assessmentData.comprehensive[0], // Body Size
+            assessmentData.comprehensive[16], // Lips
+            assessmentData.comprehensive[15], // Teeth and gums
+            assessmentData.comprehensive[4] // Complexion
+        ];
+
+        let currentAssessment = [];
+        let currentQuestionIndex = 0;
+        let responses = {};
+        let assessmentType = 'comprehensive';
+        let modelData = null;
+
+        // Load model data on startup
+        function loadModelData() {
+            fetch('static/model_data.json')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Model data not found');
+                })
+                .then(data => {
+                    modelData = data;
+                    document.getElementById('system-status').innerHTML = `
+                        <div class="success-message">
+                            <strong>System Ready!</strong> ML Model loaded with ${modelData.model_info.total_samples} training samples.
+                        </div>
+                    `;
+                })
+                .catch(() => {
+                    document.getElementById('system-status').innerHTML = `
+                        <div class="error-message">
+                            <strong>Using Built-in Assessment:</strong> Run 'python model_bridge.py' to enable trained ML model. Assessment available with traditional scoring.
+                        </div>
+                    `;
+                });
+        }
+
+        function startAssessment(type) {
+            assessmentType = type;
+            currentAssessment = assessmentData[type];
+            currentQuestionIndex = 0;
+            responses = {};
+            
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('assessment-form').style.display = 'block';
+            document.getElementById('total-questions').textContent = currentAssessment.length;
+            
+            showQuestion(0);
+        }
+
+        function showQuestion(index) {
+            if (index < 0 || index >= currentAssessment.length) return;
+            
+            const question = currentAssessment[index];
+            const container = document.getElementById('question-container');
+            
+            container.innerHTML = `
+                <div class="question-card">
+                    <h3 class="question-title">${question.question}</h3>
+                    <div class="option-group">
+                        ${question.options.map((option, i) => `
+                            <label class="option-item" onclick="selectOption(${i})">
+                                <input type="radio" name="question_${index}" value="${i}">
+                                <span>${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Update progress
+            document.getElementById('current-question').textContent = index + 1;
+            const progress = ((index + 1) / currentAssessment.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            
+            // Update navigation buttons
+            document.getElementById('prev-btn').style.display = index > 0 ? 'block' : 'none';
+            document.getElementById('next-btn').classList.toggle('hidden', index >= currentAssessment.length - 1);
+            document.getElementById('submit-btn').classList.toggle('hidden', index < currentAssessment.length - 1);
+            
+            // Restore previous selection
+            if (responses[index] !== undefined) {
+                setTimeout(() => selectOption(responses[index]), 100);
+            }
+        }
+
+        function selectOption(optionIndex) {
+            const options = document.querySelectorAll('.option-item');
+            options.forEach(option => option.classList.remove('selected'));
+            options[optionIndex].classList.add('selected');
+            
+            responses[currentQuestionIndex] = optionIndex;
+        }
+
+        function nextQuestion() {
+            if (responses[currentQuestionIndex] === undefined) {
+                alert('Please select an option before continuing.');
+                return;
+            }
+            
+            if (currentQuestionIndex < currentAssessment.length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+
+        function submitAssessment() {
+            // Check if all questions are answered
+            for (let i = 0; i < currentAssessment.length; i++) {
+                if (responses[i] === undefined) {
+                    alert(`Please answer question ${i + 1} before submitting.`);
+                    currentQuestionIndex = i;
+                    showQuestion(i);
+                    return;
+                }
+            }
+            
+            // Show loading
+            document.getElementById('assessment-form').style.display = 'none';
+            document.getElementById('loading-section').style.display = 'block';
+            
+            // Process results
+            setTimeout(() => {
+                processResults();
+            }, 2000);
+        }
+
+        function processResults() {
+            let prediction = null;
+            let probabilities = {};
+            
+            // Try ML model first if available
+            if (modelData && modelData.predictions) {
+                const responseKey = createResponseKey();
+                const modelPrediction = modelData.predictions[responseKey];
+                
+                if (modelPrediction) {
+                    prediction = modelPrediction.prediction;
+                    probabilities = modelPrediction.probabilities;
+                }
+            }
+            
+            // Fallback to traditional Ayurvedic scoring
+            if (!prediction) {
+                const scores = calculateDoshaScores();
+                prediction = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+                probabilities = scores;
+            }
+            
+            showResults(prediction, probabilities);
+        }
+
+        function createResponseKey() {
+            const keyParts = [];
+            for (let i = 0; i < currentAssessment.length; i++) {
+                keyParts.push(responses[i] || '0');
+            }
+            return keyParts.join('-');
+        }
+
+        function calculateDoshaScores() {
+            const scores = {
+                'Vata': 0,
+                'Pitta': 0, 
+                'Kapha': 0,
+                'vata+pitta': 0,
+                'pitta+kapha': 0,
+                'vata+kapha': 0
+            };
+            
+            let vataPoints = 0, pittaPoints = 0, kaphaPoints = 0;
+            
+            // Advanced Ayurvedic scoring based on traditional principles
+            Object.entries(responses).forEach(([questionIndex, response]) => {
+                const question = currentAssessment[questionIndex];
+                
+                // Detailed scoring for each characteristic
+                if (question.question.includes('Body Size')) {
+                    if (response === 1) vataPoints += 3; // Slim = Vata
+                    else if (response === 0) pittaPoints += 2; // Medium = Pitta
+                    else if (response === 2) kaphaPoints += 3; // Large = Kapha
+                }
+                else if (question.question.includes('Body Weight')) {
+                    if (response === 1) vataPoints += 3; // Low weight = Vata
+                    else if (response === 0) pittaPoints += 2; // Moderate = Pitta
+                    else if (response === 2) kaphaPoints += 3; // Heavy = Kapha
+                }
+                else if (question.question.includes('Skin') || question.question.includes('skin')) {
+                    if (response === 0) vataPoints += 2; // Dry = Vata
+                    else if (response === 1) pittaPoints += 3; // Oily/warm = Pitta
+                    else if (response === 2) kaphaPoints += 2; // Thick/moist = Kapha
+                }
+                else if (question.question.includes('Appetite')) {
+                    if (response === 2) vataPoints += 3; // Irregular = Vata
+                    else if (response === 1) pittaPoints += 3; // Strong = Pitta
+                    else if (response === 0) kaphaPoints += 3; // Slow but steady = Kapha
+                }
+                else if (question.question.includes('Hair')) {
+                    if (response === 1) vataPoints += 2; // Dry, brittle = Vata
+                    else if (response === 1) pittaPoints += 1; // Light colors = Pitta
+                    else kaphaPoints += 2; // Thick, oily = Kapha
+                }
+                else if (question.question.includes('Eyes')) {
+                    if (response === 1) vataPoints += 2; // Small, darting = Vata
+                    else if (response === 0) pittaPoints += 2; // Penetrating = Pitta  
+                    else if (response === 2) kaphaPoints += 2; // Big, beautiful = Kapha
+                }
+                else if (question.question.includes('Cheeks')) {
+                    if (response === 0) vataPoints += 2; // Sunken = Vata
+                    else if (response === 1) pittaPoints += 2; // Flat = Pitta
+                    else if (response === 2) kaphaPoints += 2; // Plump = Kapha
+                }
+                else if (question.question.includes('Lips')) {
+                    if (response === 0) vataPoints += 2; // Thin, dry = Vata
+                    else if (response === 1) pittaPoints += 2; // Medium = Pitta
+                    else if (response === 2) kaphaPoints += 2; // Full, soft = Kapha
+                }
+                else {
+                    // General scoring for other features
+                    if (response === 0) pittaPoints += 1;
+                    else if (response === 1) vataPoints += 1;
+                    else if (response === 2) kaphaPoints += 1;
+                }
+            });
+            
+            const total = Math.max(1, vataPoints + pittaPoints + kaphaPoints);
+            scores['Vata'] = vataPoints / total;
+            scores['Pitta'] = pittaPoints / total;
+            scores['Kapha'] = kaphaPoints / total;
+            
+            // Calculate dual-dosha combinations
+            if (Math.abs(vataPoints - pittaPoints) <= 2) {
+                scores['vata+pitta'] = (vataPoints + pittaPoints) / (total * 1.3);
+            }
+            if (Math.abs(pittaPoints - kaphaPoints) <= 2) {
+                scores['pitta+kapha'] = (pittaPoints + kaphaPoints) / (total * 1.3);
+            }
+            if (Math.abs(vataPoints - kaphaPoints) <= 2) {
+                scores['vata+kapha'] = (vataPoints + kaphaPoints) / (total * 1.3);
+            }
+            
+            return scores;
+        }
+
+        function showResults(primaryDosha, scores) {
+            document.getElementById('loading-section').style.display = 'none';
+            document.getElementById('results-section').style.display = 'block';
+            
+            const confidence = Math.max(0, Math.min(100, (scores[primaryDosha] || 0) * 100)).toFixed(1);
+            const doshaColors = {
+                'Vata': '#667eea',
+                'Pitta': '#ff6b6b', 
+                'Kapha': '#28a745',
+                'vata+pitta': '#764ba2',
+                'pitta+kapha': '#feca57',
+                'vata+kapha': '#20c997'
+            };
+            
+            document.getElementById('results-section').innerHTML = `
+                <div class="dosha-result">
+                    <div class="dosha-name">${primaryDosha.toUpperCase()}</div>
+                    <div class="confidence-score">Confidence: ${confidence}%</div>
+                    <p>Your primary Ayurvedic constitution</p>
+                </div>
+                
+                <div class="dosha-bars">
+                    <h3 style="margin-bottom: 20px; color: #333;">Complete Constitutional Analysis:</h3>
+                    ${Object.entries(scores)
+                        .filter(([dosha, score]) => score > 0.05) // Only show doshas with >5% score
+                        .sort(([,a], [,b]) => b - a)
+                        .map(([dosha, score]) => `
+                        <div class="dosha-bar">
+                            <div class="dosha-label">${dosha}</div>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: ${Math.max(0, Math.min(100, score * 100))}%; background: ${doshaColors[dosha] || '#ccc'}"></div>
+                            </div>
+                            <div class="percentage">${Math.max(0, Math.min(100, score * 100)).toFixed(1)}%</div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="guidance-section">
+                    <h3 class="guidance-title">Ayurvedic Guidance for ${primaryDosha.toUpperCase()}</h3>
+                    ${getGuidance(primaryDosha)}
+                </div>
+                
+                <div class="guidance-section">
+                    <h3 class="guidance-title">Assessment Details</h3>
+                    <p><strong>Assessment Type:</strong> ${assessmentType === 'comprehensive' ? 'Comprehensive (20 characteristics)' : 'Quick (8 key characteristics)'}</p>
+                    <p><strong>Analysis Method:</strong> ${modelData ? 'Machine Learning Model + Traditional Scoring' : 'Traditional Ayurvedic Scoring'}</p>
+                    <p><strong>Questions Answered:</strong> ${Object.keys(responses).length}/${currentAssessment.length}</p>
+                </div>
+                
+                <div class="nav-buttons" style="justify-content: center; gap: 20px;">
+                    <button class="nav-btn next-btn" onclick="startNewAssessment()">Take Another Assessment</button>
+                    <button class="nav-btn prev-btn" onclick="showMainMenu()">Back to Menu</button>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border: 1px solid #ffeaa7;">
+                    <small><strong>Disclaimer:</strong> This assessment provides general constitutional analysis based on traditional Ayurvedic principles. For personalized health advice and detailed constitutional analysis, consult a qualified Ayurvedic practitioner.</small>
+                </div>
+            `;
+        }
+
+        function getGuidance(dosha) {
+            const guidance = {
+                'Vata': [
+                    'Diet: Focus on warm, cooked, nourishing foods with sweet, sour, and salty tastes',
+                    'Lifestyle: Maintain regular daily routines and get adequate, quality sleep',
+                    'Exercise: Gentle, grounding activities like yoga, walking, and swimming',
+                    'Environment: Keep warm, avoid cold and windy conditions',
+                    'Mental Health: Practice meditation and calming activities to reduce anxiety'
+                ],
+                'Pitta': [
+                    'Diet: Choose cooling foods with sweet, bitter, and astringent tastes; avoid spicy and hot foods',
+                    'Lifestyle: Avoid excessive heat, overwork, and competitive situations',
+                    'Exercise: Moderate exercise during cooler parts of the day',
+                    'Environment: Prefer cool, well-ventilated spaces and avoid direct sun exposure',
+                    'Mental Health: Practice patience and avoid anger-triggering situations'
+                ],
+                'Kapha': [
+                    'Diet: Light, warm, spicy foods with pungent, bitter, and astringent tastes',
+                    'Lifestyle: Stay active and avoid excessive sleep and sedentary behavior',
+                    'Exercise: Regular, vigorous exercise and varied physical activities',
+                    'Environment: Prefer warm, dry conditions and stay mentally stimulated',
+                    'Mental Health: Engage in challenging activities to avoid mental stagnation'
+                ],
+                'vata+pitta': [
+                    'Diet: Balance cooling and warming foods based on season and current state',
+                    'Lifestyle: Maintain routine while allowing for some flexibility and creativity',
+                    'Exercise: Moderate, regular exercise avoiding both extremes',
+                    'Environment: Avoid both extreme heat and cold, prefer stable conditions',
+                    'Mental Health: Balance grounding practices with intellectual stimulation'
+                ],
+                'pitta+kapha': [
+                    'Diet: Moderately spiced, warm foods avoiding both very hot and very cold',
+                    'Lifestyle: Balance activity with adequate rest, avoid overexertion',
+                    'Exercise: Regular moderate exercise with some variety',
+                    'Environment: Comfortable temperatures, avoid excessive heat or humidity',
+                    'Mental Health: Maintain steady motivation while managing competitive tendencies'
+                ],
+                'vata+kapha': [
+                    'Diet: Warm, light, well-spiced foods that are easy to digest',
+                    'Lifestyle: Consistent routines with gentle stimulation and variety',
+                    'Exercise: Regular, gentle to moderate exercise avoiding extremes',
+                    'Environment: Warm, dry conditions with some stability',
+                    'Mental Health: Balance grounding with gentle mental stimulation'
+                ]
+            };
+            
+            const doshaGuidance = guidance[dosha] || guidance['Vata'];
+            
+            return `
+                <ul class="guidance-list">
+                    ${doshaGuidance.map(tip => `<li>${tip}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        function showMainMenu() {
+            // Hide all sections
+            document.getElementById('assessment-form').style.display = 'none';
+            document.getElementById('results-section').style.display = 'none';
+            document.getElementById('info-section').classList.add('hidden');
+            document.getElementById('about-section').classList.add('hidden');
+            document.getElementById('loading-section').style.display = 'none';
+            
+            // Show main menu
+            document.getElementById('main-menu').style.display = 'block';
+            
+            // Reset assessment state
+            currentQuestionIndex = 0;
+            responses = {};
+        }
+
+        function startNewAssessment() {
+            currentQuestionIndex = 0;
+            responses = {};
+            document.getElementById('results-section').style.display = 'none';
+            document.getElementById('assessment-form').style.display = 'block';
+            showQuestion(0);
+        }
+
+        function showInfo() {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('info-section').classList.remove('hidden');
+        }
+
+        function showAbout() {
+            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('about-section').classList.remove('hidden');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('assessment-form').style.display === 'none') return;
+            
+            if (e.key === 'ArrowRight' || e.key === 'Enter') {
+                if (!document.getElementById('next-btn').classList.contains('hidden') && responses[currentQuestionIndex] !== undefined) {
+                    nextQuestion();
+                } else if (!document.getElementById('submit-btn').classList.contains('hidden') && responses[currentQuestionIndex] !== undefined) {
+                    submitAssessment();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                previousQuestion();
+            } else if (e.key >= '1' && e.key <= '3') {
+                const optionIndex = parseInt(e.key) - 1;
+                const options = document.querySelectorAll('.option-item');
+                if (optionIndex < options.length) {
+                    selectOption(optionIndex);
+                }
+            }
+        });
+
+        // Initialize the system
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load model data if available
+            loadModelData();
+            
+            // Add hover effects to menu buttons
+            const menuButtons = document.querySelectorAll('.menu-btn');
+            menuButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            console.log('Ayurvedic Prakriti Detection System initialized successfully');
+        });
+    </script>
+</body>
+</html>

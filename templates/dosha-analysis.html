@@ -1,0 +1,494 @@
+<!-- Dosha Analysis Section -->
+<div class="animate-fade-in">
+    <div class="content-card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-yin-yang me-2 text-info"></i>AI-Powered Dosha Analysis
+            </h3>
+            <p class="mb-0 text-muted">Discover your constitutional type through ancient Ayurvedic wisdom</p>
+        </div>
+
+        <div class="card-body">
+            <!-- Dosha Detector Integration -->
+            <div id="dosha-detector-container" class="mb-4">
+                <iframe src="dosha_detector.html" 
+                        style="width: 100%; height: 700px; border: none; border-radius: 12px; 
+                               box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                </iframe>
+            </div>
+
+            <!-- Quick Assessment Options -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="assessment-option">
+                        <div class="option-icon bg-primary">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="option-content">
+                            <h5>Quick Assessment</h5>
+                            <p class="text-muted mb-3">8 key questions - Get results in 5 minutes</p>
+                            <button class="btn btn-primary" onclick="startQuickAssessment()">
+                                <i class="fas fa-play me-2"></i>Start Quick Test
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="assessment-option">
+                        <div class="option-icon bg-success">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <div class="option-content">
+                            <h5>Comprehensive Analysis</h5>
+                            <p class="text-muted mb-3">20 detailed questions - Most accurate results</p>
+                            <button class="btn btn-success" onclick="startComprehensiveAssessment()">
+                                <i class="fas fa-search me-2"></i>Detailed Analysis
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Understanding Doshas -->
+            <div class="dosha-education">
+                <h4 class="mb-4">
+                    <i class="fas fa-graduation-cap me-2 text-warning"></i>Understanding the Three Doshas
+                </h4>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="dosha-card vata-card">
+                            <div class="dosha-header">
+                                <div class="dosha-icon">
+                                    <i class="fas fa-wind"></i>
+                                </div>
+                                <h5>Vata</h5>
+                                <p class="dosha-elements">Air + Space</p>
+                            </div>
+                            <div class="dosha-body">
+                                <h6>Characteristics:</h6>
+                                <ul class="dosha-traits">
+                                    <li>Thin, light build</li>
+                                    <li>Quick, creative mind</li>
+                                    <li>Variable appetite</li>
+                                    <li>Light sleep</li>
+                                    <li>Cold hands and feet</li>
+                                </ul>
+                                <h6>Functions:</h6>
+                                <ul class="dosha-functions">
+                                    <li>Movement & circulation</li>
+                                    <li>Nervous system</li>
+                                    <li>Breathing</li>
+                                    <li>Elimination</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="dosha-card pitta-card">
+                            <div class="dosha-header">
+                                <div class="dosha-icon">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <h5>Pitta</h5>
+                                <p class="dosha-elements">Fire + Water</p>
+                            </div>
+                            <div class="dosha-body">
+                                <h6>Characteristics:</h6>
+                                <ul class="dosha-traits">
+                                    <li>Medium build</li>
+                                    <li>Sharp intellect</li>
+                                    <li>Strong appetite</li>
+                                    <li>Good sleep</li>
+                                    <li>Warm body temperature</li>
+                                </ul>
+                                <h6>Functions:</h6>
+                                <ul class="dosha-functions">
+                                    <li>Digestion & metabolism</li>
+                                    <li>Body temperature</li>
+                                    <li>Skin health</li>
+                                    <li>Vision</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="dosha-card kapha-card">
+                            <div class="dosha-header">
+                                <div class="dosha-icon">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                                <h5>Kapha</h5>
+                                <p class="dosha-elements">Earth + Water</p>
+                            </div>
+                            <div class="dosha-body">
+                                <h6>Characteristics:</h6>
+                                <ul class="dosha-traits">
+                                    <li>Sturdy, heavy build</li>
+                                    <li>Calm, steady mind</li>
+                                    <li>Slow digestion</li>
+                                    <li>Deep sleep</li>
+                                    <li>Cool, moist skin</li>
+                                </ul>
+                                <h6>Functions:</h6>
+                                <ul class="dosha-functions">
+                                    <li>Structure & immunity</li>
+                                    <li>Lubrication</li>
+                                    <li>Emotional stability</li>
+                                    <li>Joint health</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assessment History -->
+            <div class="assessment-history mt-4" ng-if="doshaAssessments.length">
+                <h4 class="mb-3">
+                    <i class="fas fa-history me-2 text-secondary"></i>Assessment History
+                </h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Primary Dosha</th>
+                                <th>Confidence</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="assessment in doshaAssessments">
+                                <td>{{assessment.date}}</td>
+                                <td>
+                                    <span class="badge" ng-class="{
+                                        'bg-primary': assessment.type === 'Quick',
+                                        'bg-success': assessment.type === 'Comprehensive'
+                                    }">{{assessment.type}}</span>
+                                </td>
+                                <td>
+                                    <span class="dosha-badge" ng-class="{
+                                        'vata-badge': assessment.primaryDosha.includes('Vata'),
+                                        'pitta-badge': assessment.primaryDosha.includes('Pitta'),
+                                        'kapha-badge': assessment.primaryDosha.includes('Kapha')
+                                    }">{{assessment.primaryDosha}}</span>
+                                </td>
+                                <td>
+                                    <div class="progress" style="height: 20px;">
+                                        <div class="progress-bar" style="width: {{assessment.confidence}}%">
+                                            {{assessment.confidence}}%
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-primary" ng-click="viewAssessment(assessment)">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-outline-info" ng-click="generateDietFromDosha(assessment)">
+                                            <i class="fas fa-utensils"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Dosha Balance Recommendation -->
+            <div class="dosha-recommendations mt-4">
+                <h4 class="mb-3">
+                    <i class="fas fa-balance-scale me-2 text-info"></i>Dosha Balance Recommendations
+                </h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <h5>
+                                <i class="fas fa-utensils me-2 text-success"></i>Dietary Guidelines
+                            </h5>
+                            <div class="recommendation-content">
+                                <div class="recommendation-item">
+                                    <strong>For Vata Imbalance:</strong>
+                                    <p>Warm, cooked foods; sweet, sour, salty tastes; regular meal times</p>
+                                </div>
+                                <div class="recommendation-item">
+                                    <strong>For Pitta Imbalance:</strong>
+                                    <p>Cool, fresh foods; sweet, bitter, astringent tastes; avoid spicy foods</p>
+                                </div>
+                                <div class="recommendation-item">
+                                    <strong>For Kapha Imbalance:</strong>
+                                    <p>Light, warm foods; pungent, bitter, astringent tastes; avoid heavy foods</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="recommendation-card">
+                            <h5>
+                                <i class="fas fa-running me-2 text-warning"></i>Lifestyle Guidelines
+                            </h5>
+                            <div class="recommendation-content">
+                                <div class="recommendation-item">
+                                    <strong>For Vata:</strong>
+                                    <p>Regular routine, gentle exercise, meditation, warm environment</p>
+                                </div>
+                                <div class="recommendation-item">
+                                    <strong>For Pitta:</strong>
+                                    <p>Moderate exercise, cool environment, avoid overwork, practice patience</p>
+                                </div>
+                                <div class="recommendation-item">
+                                    <strong>For Kapha:</strong>
+                                    <p>Vigorous exercise, stimulating activities, warm environment, avoid oversleep</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.assessment-option {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.assessment-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.option-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+}
+
+.option-content h5 {
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+
+.dosha-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.dosha-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+}
+
+.vata-card .dosha-header { background: linear-gradient(135deg, #667eea, #764ba2); }
+.pitta-card .dosha-header { background: linear-gradient(135deg, #ff6b6b, #feca57); }
+.kapha-card .dosha-header { background: linear-gradient(135deg, #28a745, #20c997); }
+
+.dosha-header {
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.dosha-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+}
+
+.dosha-header h5 {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.dosha-elements {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 0.9rem;
+}
+
+.dosha-body {
+    padding: 1.5rem;
+}
+
+.dosha-body h6 {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    margin-top: 1rem;
+}
+
+.dosha-body h6:first-child {
+    margin-top: 0;
+}
+
+.dosha-traits, .dosha-functions {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.dosha-traits li, .dosha-functions li {
+    padding: 0.25rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.dosha-traits li:before, .dosha-functions li:before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary-orange);
+    font-weight: bold;
+}
+
+.dosha-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.vata-badge { background: #e3f2fd; color: #1976d2; }
+.pitta-badge { background: #fff3e0; color: #f57c00; }
+.kapha-badge { background: #e8f5e9; color: #388e3c; }
+
+.recommendation-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    height: 100%;
+}
+
+.recommendation-card h5 {
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--light-beige);
+}
+
+.recommendation-item {
+    margin-bottom: 1.5rem;
+}
+
+.recommendation-item:last-child {
+    margin-bottom: 0;
+}
+
+.recommendation-item strong {
+    color: var(--primary-orange);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.recommendation-item p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+#dosha-detector-container {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.progress {
+    background-color: #e9ecef;
+    border-radius: 10px;
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, var(--primary-orange), var(--secondary-teal));
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+</style>
+
+<script>
+function startQuickAssessment() {
+    // Send message to iframe to start quick assessment
+    const iframe = document.querySelector('#dosha-detector-container iframe');
+    if (iframe) {
+        iframe.contentWindow.postMessage({action: 'startAssessment', type: 'quick'}, '*');
+    }
+}
+
+function startComprehensiveAssessment() {
+    // Send message to iframe to start comprehensive assessment
+    const iframe = document.querySelector('#dosha-detector-container iframe');
+    if (iframe) {
+        iframe.contentWindow.postMessage({action: 'startAssessment', type: 'comprehensive'}, '*');
+    }
+}
+
+// Listen for messages from the dosha detector iframe
+window.addEventListener('message', function(event) {
+    if (event.data.type === 'doshaResult') {
+        // Handle dosha assessment results
+        const result = event.data.result;
+        
+        // Add to Angular scope if available
+        const scope = angular.element(document.querySelector('[ng-controller="MainController"]')).scope();
+        if (scope) {
+            scope.$apply(function() {
+                if (!scope.doshaAssessments) {
+                    scope.doshaAssessments = [];
+                }
+                
+                scope.doshaAssessments.unshift({
+                    date: new Date().toLocaleDateString(),
+                    type: result.assessmentType === 'comprehensive' ? 'Comprehensive' : 'Quick',
+                    primaryDosha: result.primaryDosha,
+                    confidence: Math.round(result.confidence),
+                    fullResult: result
+                });
+                
+                // Add to recent activities
+                scope.recentActivities.unshift({
+                    description: `Dosha assessment completed: ${result.primaryDosha}`,
+                    time: "Just now",
+                    type: "bg-info",
+                    icon: "fa-yin-yang"
+                });
+            });
+        }
+    }
+});
+</script>

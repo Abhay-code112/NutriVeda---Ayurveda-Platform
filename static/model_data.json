@@ -1,0 +1,1241 @@
+{
+  "features": {
+    "Body Size": [
+      "Medium",
+      "Slim",
+      "Large"
+    ],
+    "Body Weight": [
+      "Moderate - no difficulties in gaining or losing weight",
+      "Low - difficulties in gaining weight",
+      "Heavy - difficulties in losing weight"
+    ],
+    "Height": [
+      "Average",
+      "Short",
+      "Tall"
+    ],
+    "Bone Structure": [
+      "Large, broad shoulders , heavy bone structure",
+      "Medium bone structure",
+      "Light, Small bones, prominent joints"
+    ],
+    "Complexion": [
+      "White, pale, tans easily",
+      "Fair-skin sunburns easily",
+      "Dark-Complexion, tans easily"
+    ],
+    "General feel of skin": [
+      "Dry and thin, cool to touch, rough",
+      "Smooth and warm, oily T-zone",
+      "Thick and moist/greasy, cold"
+    ],
+    "Texture of Skin": [
+      "Dry, pigments and aging",
+      "Oily",
+      "Freckles, many moles, redness and rashes"
+    ],
+    "Hair Color": [
+      "Black/Brown,dull",
+      "Red, light brown, yellow",
+      "Brown"
+    ],
+    "Appearance of Hair": [
+      "Straight, oily",
+      "Dry, black, knotted, brittle",
+      "Thick, curly"
+    ],
+    "Shape of face": [
+      "Long, angular, thin",
+      "Large, round, full",
+      "Heart-shaped, pointed chin"
+    ],
+    "Eyes": [
+      "Medium-sized, penetrating, light-sensitive eyes",
+      "Small, active, darting, dark eyes",
+      "Big, round, beautiful, glowing eyes"
+    ],
+    "Eyelashes": [
+      "Moderate eyelashes",
+      "Scanty eyelashes",
+      "Thick/Fused eyelashes"
+    ],
+    "Blinking of Eyes": [
+      "Moderate Blinking",
+      "Excessive Blinking",
+      "More or less stable"
+    ],
+    "Cheeks": [
+      "Wrinkled, Sunken",
+      "Smooth, Flat",
+      "Rounded, Plump"
+    ],
+    "Nose": [
+      "Rounded, Large open nostrils",
+      "Crooked, Narrow",
+      "Pointed, Average"
+    ],
+    "Teeth and gums": [
+      "Big, White, Strong teeth, Healthy gums",
+      "Medium-sized teeth, Reddish gums",
+      "Irregular, Protruding teeth, Receding gums"
+    ],
+    "Lips": [
+      "Tight, thin, dry lips which chaps easily",
+      "Lips are soft, medium-sized",
+      "Lips are large, soft, pink, and full"
+    ],
+    "Nails": [
+      "Thick, Oily, Smooth, Polished",
+      "Dry, Rough, Brittle, Break",
+      "Sharp, Flexible, Pink, Lustrous"
+    ],
+    "Appetite": [
+      "Slow but steady",
+      "Strong, Unbearable",
+      "Irregular, Scanty"
+    ],
+    "Liking tastes": [
+      "Sweet / Sour / Salty",
+      "Sweet / Bitter / Astringent",
+      "Pungent / Bitter / Astringent"
+    ]
+  },
+  "feature_names": [
+    "Body Size",
+    "Body Weight",
+    "Height",
+    "Bone Structure",
+    "Complexion",
+    "General feel of skin",
+    "Texture of Skin",
+    "Hair Color",
+    "Appearance of Hair",
+    "Shape of face",
+    "Eyes",
+    "Eyelashes",
+    "Blinking of Eyes",
+    "Cheeks",
+    "Nose",
+    "Teeth and gums",
+    "Lips",
+    "Nails",
+    "Appetite",
+    "Liking tastes"
+  ],
+  "target_names": [
+    "Kapha",
+    "Pitta",
+    "Vata",
+    "pitta+kapha",
+    "vata+kapha",
+    "vata+pitta"
+  ],
+  "predictions": {
+    "1-1-1-2-1-2-0-0-0-0-2-1-1-0-1-1-0-2-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.04,
+        "Pitta": 0.0,
+        "Vata": 0.62,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.33
+      }
+    },
+    "2-2-2-1-0-1-1-0-1-1-1-2-0-0-0-0-0-0-0-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.15,
+        "Pitta": 0.09,
+        "Vata": 0.22,
+        "pitta+kapha": 0.2,
+        "vata+kapha": 0.05,
+        "vata+pitta": 0.29
+      }
+    },
+    "0-0-0-1-1-1-2-1-0-2-0-0-0-1-2-1-1-2-1-2": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.94,
+        "Vata": 0.0,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.05
+      }
+    },
+    "1-0-1-2-1-0-1-0-1-0-0-1-0-0-0-2-0-1-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.02,
+        "Vata": 0.7,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.28
+      }
+    },
+    "1-0-1-1-0-1-0-0-0-0-0-1-0-0-2-2-0-1-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.79,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.2
+      }
+    },
+    "0-0-0-2-1-0-0-1-0-0-1-2-2-0-1-1-2-2-2-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.05,
+        "Vata": 0.08,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.02,
+        "vata+pitta": 0.83
+      }
+    },
+    "1-0-0-2-0-2-2-0-1-2-1-1-2-0-1-1-1-1-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.07,
+        "Vata": 0.7,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.21
+      }
+    },
+    "2-2-0-2-2-1-1-0-1-2-0-0-0-0-0-2-2-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.04,
+        "Pitta": 0.09,
+        "Vata": 0.21,
+        "pitta+kapha": 0.12,
+        "vata+kapha": 0.19,
+        "vata+pitta": 0.35
+      }
+    },
+    "0-1-1-1-1-1-1-0-1-2-1-1-0-0-1-2-0-2-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.82,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.16
+      }
+    },
+    "1-1-0-1-1-1-1-0-2-0-1-1-0-1-0-1-0-0-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.02,
+        "Vata": 0.14,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.83
+      }
+    },
+    "0-0-2-1-1-1-1-0-1-0-1-0-0-1-1-1-1-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.14,
+        "Vata": 0.04,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.82
+      }
+    },
+    "2-0-2-0-1-0-1-0-0-0-0-0-0-1-0-1-1-1-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.05,
+        "Vata": 0.03,
+        "pitta+kapha": 0.06,
+        "vata+kapha": 0.04,
+        "vata+pitta": 0.82
+      }
+    },
+    "2-2-2-0-0-2-1-2-2-1-2-2-2-2-0-0-2-0-0-0": {
+      "prediction": "Kapha",
+      "probabilities": {
+        "Kapha": 0.92,
+        "Pitta": 0.01,
+        "Vata": 0.0,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.03,
+        "vata+pitta": 0.03
+      }
+    },
+    "0-0-1-1-1-0-1-0-1-0-2-1-1-0-2-1-0-1-1-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.74,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.26
+      }
+    },
+    "1-1-0-2-2-1-1-0-1-2-0-2-0-1-1-1-0-1-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.78,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.21
+      }
+    },
+    "0-1-1-2-2-0-0-0-1-2-1-0-0-1-1-2-0-0-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.39,
+        "pitta+kapha": 0.03,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.56
+      }
+    },
+    "0-0-0-1-1-0-0-0-0-0-1-2-0-0-1-1-1-1-1-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.04,
+        "Vata": 0.02,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.94
+      }
+    },
+    "0-1-1-1-2-0-1-1-1-0-1-1-2-0-1-1-0-1-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.8,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.18
+      }
+    },
+    "1-1-1-2-2-0-1-0-1-0-1-1-1-0-1-2-0-1-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.99,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.0
+      }
+    },
+    "0-0-0-1-1-0-1-1-0-2-0-1-2-0-1-2-1-2-1-0": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.68,
+        "Vata": 0.02,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.3
+      }
+    },
+    "0-0-1-1-1-0-1-1-1-0-0-0-0-1-0-1-0-1-0-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.1,
+        "Vata": 0.23,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.66
+      }
+    },
+    "1-1-1-2-2-0-1-0-1-0-1-1-1-0-1-2-0-1-2-1": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.98,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.01
+      }
+    },
+    "0-0-0-1-2-1-0-0-0-1-0-1-0-1-1-2-1-2-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.03,
+        "Vata": 0.03,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.94
+      }
+    },
+    "1-2-0-2-1-0-1-1-1-0-1-0-1-1-1-1-0-1-2-1": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.02,
+        "Vata": 0.75,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.06,
+        "vata+pitta": 0.15
+      }
+    },
+    "1-1-1-2-2-0-1-0-1-0-1-1-1-0-1-2-0-1-2-2": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.93,
+        "pitta+kapha": 0.04,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.03
+      }
+    },
+    "0-0-2-1-2-0-0-0-1-2-2-1-0-0-1-2-1-1-1-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.03,
+        "Vata": 0.02,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.03,
+        "vata+pitta": 0.92
+      }
+    },
+    "0-0-0-0-1-1-1-0-1-1-0-0-0-0-1-1-1-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.04,
+        "Vata": 0.01,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.93
+      }
+    },
+    "2-2-1-0-0-2-1-2-2-1-2-2-0-2-0-0-2-0-0-2": {
+      "prediction": "Kapha",
+      "probabilities": {
+        "Kapha": 0.92,
+        "Pitta": 0.0,
+        "Vata": 0.01,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.04,
+        "vata+pitta": 0.02
+      }
+    },
+    "0-0-0-1-0-2-2-0-0-0-1-0-0-1-2-1-1-2-2-0": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.73,
+        "Vata": 0.04,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.22
+      }
+    },
+    "0-0-0-1-1-1-0-1-0-0-1-0-2-0-2-2-0-0-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.08,
+        "Vata": 0.05,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.86
+      }
+    },
+    "0-0-2-1-1-0-1-0-1-1-0-1-0-0-1-2-1-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.02,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.97
+      }
+    },
+    "1-1-2-2-2-0-1-2-2-0-1-2-2-2-1-0-0-1-2-2": {
+      "prediction": "pitta+kapha",
+      "probabilities": {
+        "Kapha": 0.03,
+        "Pitta": 0.02,
+        "Vata": 0.15,
+        "pitta+kapha": 0.65,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.14
+      }
+    },
+    "0-0-1-1-1-1-1-0-0-1-1-0-0-2-2-0-1-1-0-0": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.06,
+        "Pitta": 0.61,
+        "Vata": 0.04,
+        "pitta+kapha": 0.05,
+        "vata+kapha": 0.04,
+        "vata+pitta": 0.2
+      }
+    },
+    "0-0-0-1-0-2-1-0-0-0-2-1-1-1-2-2-1-1-2-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.06,
+        "Pitta": 0.03,
+        "Vata": 0.05,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.85
+      }
+    },
+    "2-2-0-0-0-2-1-0-1-1-2-2-0-2-0-1-1-1-0-0": {
+      "prediction": "Kapha",
+      "probabilities": {
+        "Kapha": 0.77,
+        "Pitta": 0.0,
+        "Vata": 0.04,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.14,
+        "vata+pitta": 0.05
+      }
+    },
+    "1-0-1-1-2-1-1-1-1-2-1-0-1-1-1-1-0-2-2-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.02,
+        "Vata": 0.17,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.8
+      }
+    },
+    "1-1-2-2-1-1-1-0-1-0-1-0-0-1-1-1-1-2-0-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.05,
+        "Vata": 0.08,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.86
+      }
+    },
+    "1-1-1-2-1-1-1-0-2-2-0-0-0-2-1-1-0-1-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.08,
+        "Vata": 0.24,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.67
+      }
+    },
+    "1-0-1-2-1-0-1-0-0-1-0-1-0-1-1-1-1-1-0-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.01,
+        "Vata": 0.07,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.91
+      }
+    },
+    "1-1-0-2-1-1-1-0-2-2-1-0-1-0-1-2-1-2-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.29,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.7
+      }
+    },
+    "0-0-1-1-1-1-1-0-0-0-1-0-0-1-1-2-0-1-1-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.1,
+        "Vata": 0.09,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.8
+      }
+    },
+    "0-1-0-0-2-2-1-0-0-1-1-1-1-1-2-1-0-0-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.02,
+        "Pitta": 0.02,
+        "Vata": 0.16,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.03,
+        "vata+pitta": 0.77
+      }
+    },
+    "2-2-0-0-1-1-1-0-0-1-0-0-0-2-0-1-1-1-0-0": {
+      "prediction": "vata+kapha",
+      "probabilities": {
+        "Kapha": 0.09,
+        "Pitta": 0.07,
+        "Vata": 0.03,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.71,
+        "vata+pitta": 0.08
+      }
+    },
+    "0-1-1-1-2-1-0-0-0-1-1-1-0-1-1-2-1-2-1-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.08,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.89
+      }
+    },
+    "1-0-1-2-0-1-1-0-2-1-0-0-0-1-0-1-1-0-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.09,
+        "Vata": 0.03,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.87
+      }
+    },
+    "0-1-1-1-1-0-0-2-1-0-0-0-1-0-1-1-2-2-0-2": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.04,
+        "Vata": 0.06,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.02,
+        "vata+pitta": 0.85
+      }
+    },
+    "1-1-2-2-0-0-1-0-0-2-1-0-0-2-1-1-1-2-0-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.14,
+        "Vata": 0.1,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.05,
+        "vata+pitta": 0.68
+      }
+    },
+    "0-0-2-2-1-1-1-0-0-1-1-0-0-1-1-2-0-1-0-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.09,
+        "Vata": 0.06,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.84
+      }
+    },
+    "1-0-1-1-2-0-1-0-2-0-1-1-0-1-2-2-0-2-0-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.63,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.36
+      }
+    },
+    "2-0-2-0-2-1-2-2-1-2-1-2-0-2-0-2-2-2-0-2": {
+      "prediction": "vata+kapha",
+      "probabilities": {
+        "Kapha": 0.04,
+        "Pitta": 0.08,
+        "Vata": 0.04,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.62,
+        "vata+pitta": 0.21
+      }
+    },
+    "0-0-0-1-1-1-2-1-0-2-0-0-0-1-2-1-1-2-1-1": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.89,
+        "Vata": 0.0,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.11
+      }
+    },
+    "2-0-1-1-2-1-1-0-1-0-1-1-0-0-2-1-1-2-1-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.05,
+        "Vata": 0.03,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.9
+      }
+    },
+    "1-1-1-2-2-0-1-2-2-0-1-0-1-0-2-2-1-1-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.81,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.18
+      }
+    },
+    "0-0-0-1-1-1-1-0-0-0-0-0-0-2-1-1-1-0-0-0": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.95,
+        "Vata": 0.0,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.04
+      }
+    },
+    "0-0-0-2-2-1-2-0-1-0-0-1-0-0-1-2-1-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.01,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.97
+      }
+    },
+    "1-1-0-2-0-1-1-2-2-0-1-0-0-1-2-0-1-0-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.02,
+        "Pitta": 0.06,
+        "Vata": 0.03,
+        "pitta+kapha": 0.05,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.84
+      }
+    },
+    "0-0-0-1-1-0-0-0-1-0-0-2-1-1-1-2-0-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.14,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.86
+      }
+    },
+    "1-0-0-2-1-0-2-1-2-0-0-2-1-0-0-2-1-2-1-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.1,
+        "Vata": 0.07,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.82
+      }
+    },
+    "2-0-1-0-1-1-2-0-0-2-1-0-0-2-0-1-0-2-0-0": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.03,
+        "Pitta": 0.67,
+        "Vata": 0.04,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.1,
+        "vata+pitta": 0.15
+      }
+    },
+    "0-0-0-1-1-1-1-0-2-0-0-0-0-2-1-1-1-0-0-0": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.92,
+        "Vata": 0.02,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.06
+      }
+    },
+    "0-0-0-2-2-0-1-1-1-2-0-1-1-1-2-2-2-0-2-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.05,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.93
+      }
+    },
+    "2-0-2-0-0-0-0-1-0-0-1-0-0-1-2-1-1-2-1-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.06,
+        "Pitta": 0.2,
+        "Vata": 0.02,
+        "pitta+kapha": 0.04,
+        "vata+kapha": 0.05,
+        "vata+pitta": 0.63
+      }
+    },
+    "1-1-1-2-1-1-1-2-1-2-0-1-0-2-1-2-0-0-2-1": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.0,
+        "Vata": 0.8,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.18
+      }
+    },
+    "2-1-1-2-1-2-1-0-2-0-1-0-0-0-1-1-2-1-2-2": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.02,
+        "Pitta": 0.04,
+        "Vata": 0.76,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.05,
+        "vata+pitta": 0.13
+      }
+    },
+    "0-0-1-1-1-1-0-1-1-0-2-0-0-0-0-2-0-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.03,
+        "Vata": 0.12,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.83
+      }
+    },
+    "1-0-1-2-1-2-2-1-0-2-1-1-2-0-1-2-2-1-0-2": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.16,
+        "Vata": 0.31,
+        "pitta+kapha": 0.04,
+        "vata+kapha": 0.05,
+        "vata+pitta": 0.43
+      }
+    },
+    "0-0-0-1-1-0-1-0-0-0-1-1-0-1-1-1-1-0-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.13,
+        "Vata": 0.02,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.85
+      }
+    },
+    "0-0-0-2-0-0-1-0-1-0-1-0-1-0-2-2-0-1-0-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.02,
+        "Vata": 0.82,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.16
+      }
+    },
+    "0-1-0-2-1-1-1-1-1-2-0-1-1-1-0-2-1-2-2-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.0,
+        "Vata": 0.09,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.89
+      }
+    },
+    "0-0-1-1-1-1-1-0-1-0-2-0-0-0-0-1-1-1-0-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.06,
+        "Vata": 0.05,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.86
+      }
+    },
+    "0-0-1-1-0-1-1-0-2-0-0-2-0-2-1-1-1-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.02,
+        "Pitta": 0.1,
+        "Vata": 0.04,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.83
+      }
+    },
+    "2-2-0-1-2-0-2-1-0-1-1-0-0-1-1-2-2-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.05,
+        "Vata": 0.07,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.12,
+        "vata+pitta": 0.74
+      }
+    },
+    "0-0-2-2-1-1-1-0-0-0-1-0-0-0-2-2-1-2-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.08,
+        "Vata": 0.05,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.87
+      }
+    },
+    "1-1-0-1-2-1-2-0-2-0-0-0-2-2-1-2-0-2-0-2": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.1,
+        "Vata": 0.08,
+        "pitta+kapha": 0.05,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.76
+      }
+    },
+    "0-0-0-1-0-0-2-0-0-0-0-1-0-1-1-2-1-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.04,
+        "Vata": 0.0,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.96
+      }
+    },
+    "2-2-0-0-0-1-2-0-1-1-2-0-0-2-0-0-2-2-0-0": {
+      "prediction": "Kapha",
+      "probabilities": {
+        "Kapha": 0.82,
+        "Pitta": 0.02,
+        "Vata": 0.01,
+        "pitta+kapha": 0.03,
+        "vata+kapha": 0.08,
+        "vata+pitta": 0.04
+      }
+    },
+    "1-1-1-1-2-1-0-0-1-2-0-0-0-0-1-1-0-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.02,
+        "Vata": 0.34,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.02,
+        "vata+pitta": 0.61
+      }
+    },
+    "0-0-0-1-2-0-1-0-2-0-0-0-1-1-1-1-0-1-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.03,
+        "Vata": 0.09,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.88
+      }
+    },
+    "0-0-1-1-2-1-1-1-0-0-1-1-2-0-1-1-0-2-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.03,
+        "Vata": 0.18,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.77
+      }
+    },
+    "1-2-1-1-2-1-2-0-0-1-1-1-0-1-1-1-0-2-2-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.02,
+        "Vata": 0.42,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.07,
+        "vata+pitta": 0.47
+      }
+    },
+    "0-0-0-1-1-1-2-1-0-2-0-0-0-1-2-1-1-2-1-0": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.88,
+        "Vata": 0.0,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.12
+      }
+    },
+    "2-2-2-0-0-2-1-2-2-1-2-1-0-0-1-1-1-1-2-0": {
+      "prediction": "Kapha",
+      "probabilities": {
+        "Kapha": 0.3,
+        "Pitta": 0.03,
+        "Vata": 0.29,
+        "pitta+kapha": 0.06,
+        "vata+kapha": 0.11,
+        "vata+pitta": 0.21
+      }
+    },
+    "2-2-2-0-0-2-1-2-2-1-2-2-2-2-0-0-2-0-0-2": {
+      "prediction": "Kapha",
+      "probabilities": {
+        "Kapha": 0.93,
+        "Pitta": 0.0,
+        "Vata": 0.0,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.04,
+        "vata+pitta": 0.01
+      }
+    },
+    "1-0-0-1-1-1-1-0-1-0-1-0-0-1-0-1-1-2-0-0": {
+      "prediction": "Pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.65,
+        "Vata": 0.04,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.3
+      }
+    },
+    "2-2-0-1-1-2-2-1-2-1-2-0-0-2-2-1-0-1-1-2": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.19,
+        "Pitta": 0.11,
+        "Vata": 0.11,
+        "pitta+kapha": 0.1,
+        "vata+kapha": 0.18,
+        "vata+pitta": 0.31
+      }
+    },
+    "0-0-1-2-2-1-1-2-1-2-0-0-1-1-2-1-2-1-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.02,
+        "Vata": 0.09,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.88
+      }
+    },
+    "0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.04,
+        "Pitta": 0.06,
+        "Vata": 0.03,
+        "pitta+kapha": 0.04,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.83
+      }
+    },
+    "0-0-0-1-1-1-1-0-0-1-1-0-0-1-1-1-1-2-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.41,
+        "Vata": 0.06,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.53
+      }
+    },
+    "1-1-2-1-0-0-2-0-2-2-0-0-0-1-2-1-0-0-0-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.07,
+        "Vata": 0.09,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.81
+      }
+    },
+    "1-1-0-2-1-1-2-0-1-0-2-0-1-0-2-2-0-1-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.05,
+        "Pitta": 0.0,
+        "Vata": 0.86,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.09
+      }
+    },
+    "1-1-0-1-0-2-2-1-1-0-1-1-0-0-0-2-0-0-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.04,
+        "Vata": 0.44,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.52
+      }
+    },
+    "0-0-0-1-2-0-2-0-1-2-1-1-0-2-2-2-0-2-1-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.06,
+        "Vata": 0.05,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.03,
+        "vata+pitta": 0.85
+      }
+    },
+    "2-2-2-0-2-0-1-0-1-0-0-0-0-1-0-0-2-0-0-0": {
+      "prediction": "pitta+kapha",
+      "probabilities": {
+        "Kapha": 0.04,
+        "Pitta": 0.04,
+        "Vata": 0.05,
+        "pitta+kapha": 0.64,
+        "vata+kapha": 0.05,
+        "vata+pitta": 0.18
+      }
+    },
+    "2-2-0-2-1-0-1-0-1-1-0-0-2-2-0-0-0-2-1-0": {
+      "prediction": "pitta+kapha",
+      "probabilities": {
+        "Kapha": 0.06,
+        "Pitta": 0.03,
+        "Vata": 0.04,
+        "pitta+kapha": 0.72,
+        "vata+kapha": 0.03,
+        "vata+pitta": 0.12
+      }
+    },
+    "1-0-1-2-1-1-1-1-1-1-1-1-1-0-1-1-0-2-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.79,
+        "pitta+kapha": 0.0,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.2
+      }
+    },
+    "0-2-1-2-2-1-0-1-1-2-1-1-0-0-0-2-2-1-2-1": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.01,
+        "Vata": 0.69,
+        "pitta+kapha": 0.02,
+        "vata+kapha": 0.05,
+        "vata+pitta": 0.22
+      }
+    },
+    "0-2-2-1-1-1-1-1-0-1-2-0-1-1-0-2-2-1-0-1": {
+      "prediction": "vata+kapha",
+      "probabilities": {
+        "Kapha": 0.05,
+        "Pitta": 0.03,
+        "Vata": 0.04,
+        "pitta+kapha": 0.05,
+        "vata+kapha": 0.53,
+        "vata+pitta": 0.3
+      }
+    },
+    "1-1-0-1-2-0-2-1-0-2-1-1-0-0-2-2-0-0-2-0": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.05,
+        "Vata": 0.41,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.0,
+        "vata+pitta": 0.53
+      }
+    },
+    "0-1-1-2-1-0-1-0-1-2-1-1-0-1-2-1-0-0-2-0": {
+      "prediction": "Vata",
+      "probabilities": {
+        "Kapha": 0.0,
+        "Pitta": 0.01,
+        "Vata": 0.56,
+        "pitta+kapha": 0.01,
+        "vata+kapha": 0.01,
+        "vata+pitta": 0.41
+      }
+    },
+    "2-0-1-1-2-0-1-0-1-2-0-1-2-2-1-1-0-0-2-1": {
+      "prediction": "vata+pitta",
+      "probabilities": {
+        "Kapha": 0.01,
+        "Pitta": 0.08,
+        "Vata": 0.05,
+        "pitta+kapha": 0.03,
+        "vata+kapha": 0.02,
+        "vata+pitta": 0.81
+      }
+    }
+  },
+  "model_info": {
+    "total_samples": 100,
+    "n_features": 20,
+    "accuracy": 1.0
+  }
+}

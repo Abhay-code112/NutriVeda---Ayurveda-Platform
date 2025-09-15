@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="nutrivedaApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriVeda - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .sidebar {
+            background: white;
+            min-height: calc(100vh - 56px);
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar .nav-link {
+            color: #495057;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+        }
+        .main-content {
+            padding: 2rem;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .stat-card .card-body {
+            padding: 1.5rem;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .table thead th {
+            background: #f8f9fa;
+            border: none;
+            font-weight: 600;
+            color: #495057;
+        }
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+        .logout-btn {
+            background: #dc3545;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-leaf me-2"></i>NutriVeda Admin
+            </a>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text me-3">
+                    <i class="fas fa-user-md me-1"></i>Welcome, <span id="adminName">Dr. Rajesh Kumar</span>
+                </span>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-0">
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="#" ng-click="setActiveTab('dashboard')">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                    </a>
+                    <a class="nav-link" href="#" ng-click="setActiveTab('patients')">
+                        <i class="fas fa-users me-2"></i>Patients
+                    </a>
+                    <a class="nav-link" href="#" ng-click="setActiveTab('diet-charts')">
+                        <i class="fas fa-file-medical me-2"></i>Diet Charts
+                    </a>
+                    <a class="nav-link" href="#" ng-click="setActiveTab('food-database')">
+                        <i class="fas fa-database me-2"></i>Food Database
+                    </a>
+                    <a class="nav-link" href="#" ng-click="setActiveTab('dosha-analysis')">
+                        <i class="fas fa-brain me-2"></i>Dosha Analysis
+                    </a>
+                    <a class="nav-link" href="#" ng-click="setActiveTab('reports')">
+                        <i class="fas fa-chart-bar me-2"></i>Reports
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <!-- Dashboard Tab -->
+                <div ng-show="activeTab === 'dashboard'">
+                    <h2 class="mb-4">Admin Dashboard</h2>
+                    
+                    <!-- Statistics Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card">
+                                <div class="card-body text-center">
+                                    <div class="stat-number">{{patients.length}}</div>
+                                    <div>Total Patients</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card">
+                                <div class="card-body text-center">
+                                    <div class="stat-number">{{dietCharts.length}}</div>
+                                    <div>Diet Charts</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card">
+                                <div class="card-body text-center">
+                                    <div class="stat-number">{{foodDatabase.length}}</div>
+                                    <div>Food Items</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="card stat-card">
+                                <div class="card-body text-center">
+                                    <div class="stat-number">{{recentActivities.length}}</div>
+                                    <div>Recent Activities</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activities -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-clock me-2"></i>Recent Activities</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="list-group list-group-flush">
+                                        <div class="list-group-item d-flex justify-content-between align-items-center" ng-repeat="activity in recentActivities">
+                                            <div>
+                                                <i class="fas fa-circle me-2" ng-class="activity.type"></i>
+                                                {{activity.message}}
+                                            </div>
+                                            <small class="text-muted">{{activity.time}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-chart-pie me-2"></i>Patient Distribution</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="patientChart" width="300" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Patients Tab -->
+                <div ng-show="activeTab === 'patients'">
+                    <div ng-include="'templates/patients.html'"></div>
+                </div>
+
+                <!-- Diet Charts Tab -->
+                <div ng-show="activeTab === 'diet-charts'">
+                    <div ng-include="'templates/diet-charts.html'"></div>
+                </div>
+
+                <!-- Food Database Tab -->
+                <div ng-show="activeTab === 'food-database'">
+                    <div ng-include="'templates/food-database.html'"></div>
+                </div>
+
+                <!-- Dosha Analysis Tab -->
+                <div ng-show="activeTab === 'dosha-analysis'">
+                    <div ng-include="'templates/dosha-analysis.html'"></div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div ng-show="activeTab === 'reports'">
+                    <h2 class="mb-4">Reports & Analytics</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-chart-line me-2"></i>Patient Growth</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="growthChart" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-utensils me-2"></i>Popular Foods</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="foodChart" width="400" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the main app script -->
+    <script src="static/js/app.js"></script>
+    
+    <!-- Additional admin-specific functionality -->
+    <script>
+        // Override the main controller for admin-specific behavior
+        angular.module('nutrivedaApp').controller('AdminController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
+            // Inherit from main controller
+            angular.extend(this, $scope);
+            
+            // Admin-specific initialization
+            $scope.initializeAdminData = function() {
+                // Load patients data
+                $http.get('http://localhost:8000/api/patients/')
+                    .then(function(response) {
+                        $scope.patients = response.data.patients || [];
+                    })
+                    .catch(function(error) {
+                        console.error('Error loading patients:', error);
+                        // Fallback to sample data
+                        $scope.patients = [
+                            { id: 1001, name: "Raj Kumar", age: 35, gender: "Male", prakriti: "Vata", phone: "+91-9876543210", email: "raj@email.com" },
+                            { id: 1002, name: "Priya Sharma", age: 28, gender: "Female", prakriti: "Pitta", phone: "+91-9876543211", email: "priya@email.com" },
+                            { id: 1003, name: "Amit Patel", age: 42, gender: "Male", prakriti: "Kapha", phone: "+91-9876543212", email: "amit@email.com" }
+                        ];
+                    });
+                
+                // Load food database
+                $http.get('http://localhost:8000/api/food-database/')
+                    .then(function(response) {
+                        $scope.foodDatabase = response.data.foods || [];
+                    })
+                    .catch(function(error) {
+                        console.error('Error loading food database:', error);
+                    });
+                
+                // Initialize recent activities
+                $scope.recentActivities = [
+                    { message: "New patient Raj Kumar registered", time: "2 hours ago", type: "bg-primary", icon: "fa-user-plus" },
+                    { message: "Diet chart generated for Priya Sharma", time: "4 hours ago", type: "bg-success", icon: "fa-file-medical" },
+                    { message: "Food database updated with 5 new items", time: "6 hours ago", type: "bg-info", icon: "fa-database" },
+                    { message: "Dosha analysis completed for Amit Patel", time: "8 hours ago", type: "bg-warning", icon: "fa-brain" }
+                ];
+            };
+            
+            // Initialize admin data
+            $scope.initializeAdminData();
+        }]);
+    </script>
+    
+    <script>
+        // Check authentication
+        if (localStorage.getItem('isLoggedIn') !== 'true' || localStorage.getItem('userRole') !== 'admin') {
+            window.location.href = 'login.html';
+        }
+
+        // Set admin name
+        document.getElementById('adminName').textContent = localStorage.getItem('username') || 'Dr. Rajesh Kumar';
+
+        // Logout function
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        // Initialize charts when dashboard loads
+        setTimeout(() => {
+            if (typeof Chart !== 'undefined') {
+                // Patient Distribution Chart
+                const patientCtx = document.getElementById('patientChart');
+                if (patientCtx) {
+                    new Chart(patientCtx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Vata', 'Pitta', 'Kapha'],
+                            datasets: [{
+                                data: [3, 2, 1],
+                                backgroundColor: ['#ff6b6b', '#4ecdc4', '#45b7d1']
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Growth Chart
+                const growthCtx = document.getElementById('growthChart');
+                if (growthCtx) {
+                    new Chart(growthCtx, {
+                        type: 'line',
+                        data: {
+                            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                            datasets: [{
+                                label: 'New Patients',
+                                data: [2, 3, 1, 4, 2, 5],
+                                borderColor: '#ff6b6b',
+                                tension: 0.4
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+
+                // Food Chart
+                const foodCtx = document.getElementById('foodChart');
+                if (foodCtx) {
+                    new Chart(foodCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Rice', 'Dal', 'Vegetables', 'Fruits', 'Nuts'],
+                            datasets: [{
+                                label: 'Usage Count',
+                                data: [15, 12, 18, 10, 8],
+                                backgroundColor: '#4ecdc4'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false
+                        }
+                    });
+                }
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

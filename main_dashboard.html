@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriVeda - Comprehensive Ayurvedic Nutrition Platform</title>
+    
+    <!-- External Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary-orange: #E68B47;
+            --secondary-teal: #4A9B8E;
+            --light-beige: #F5F2E8;
+            --warm-cream: #FBF8F1;
+            --text-dark: #2C3E50;
+            --text-muted: #7C8BA1;
+            --success-green: #28a745;
+            --warning-orange: #fd7e14;
+            --danger-red: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background-image: url('static/images/back.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-dark);
+            line-height: 1.6;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: -1;
+        }
+
+        /* Navigation Header */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-orange) !important;
+            text-decoration: none;
+        }
+
+        .navbar-brand .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-teal));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-pills .nav-link {
+            color: var(--text-muted);
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-pills .nav-link.active {
+            background: var(--primary-orange);
+            color: white;
+            box-shadow: 0 4px 15px rgba(230, 139, 71, 0.3);
+        }
+
+        .nav-pills .nav-link:hover:not(.active) {
+            background: var(--light-beige);
+            color: var(--primary-orange);
+        }
+
+        /* Main Dashboard Container */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #f5f2e8 0%, #fbf8f1 50%, #f0f8f0 100%);
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(76, 175, 80, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 193, 7, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(139, 195, 74, 0.05) 0%, transparent 50%);
+            opacity: 1;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(76, 175, 80, 0.05) 50%, transparent 70%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><pattern id="herbs" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 5 Q25 15 20 25 Q15 15 20 5" fill="%234CAF50" opacity="0.3"/><path d="M10 20 Q15 30 10 40 Q5 30 10 20" fill="%238BC34A" opacity="0.2"/><path d="M30 20 Q35 30 30 40 Q25 30 30 20" fill="%2366BB6A" opacity="0.25"/></pattern></defs><rect width="200" height="200" fill="url(%23herbs)"/></svg>');
+            background-size: 100px 100px;
+            transform: rotate(-15deg);
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            max-width: 50%;
+            padding-right: 2rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #2e7d32, #4caf50, #8bc34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #5d6d7e;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-illustration {
+            position: relative;
+            z-index: 2;
+            width: 280px;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mortar-pestle {
+            width: 100%;
+            height: 100%;
+            max-width: 312px;
+            max-height: 312px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+        }
+
+        /* Statistics Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-orange), var(--secondary-teal));
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Content Cards */
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--light-beige), white);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-orange), #d67635);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(230, 139, 71, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(230, 139, 71, 0.4);
+            background: linear-gradient(135deg, #d67635, var(--primary-orange));
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* Recent Activities */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Food Items */
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .food-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .food-item:hover {
+            border-color: var(--primary-orange);
+            box-shadow: 0 4px 15px rgba(230, 139, 71, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .food-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .food-properties {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .property-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .badge-hot { background: #ffe0e0; color: #d32f2f; }
+        .badge-cold { background: #e0f2ff; color: #1976d2; }
+        .badge-easy { background: #e8f5e9; color: #388e3c; }
+        .badge-heavy { background: #fff3e0; color: #f57c00; }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem 1.5rem;
+            }
+            
+            .hero-content {
+                max-width: 100%;
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-illustration {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .mortar-pestle {
+                max-width: 225px;
+                max-height: 225px;
+                object-fit: contain;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Diet Chart Styles */
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .summary-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .summary-content .summary-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-content .summary-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .meal-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .meal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-beige);
+        }
+
+        .meal-title-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .meal-title {
+            color: var(--text-dark);
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .meal-time-badge {
+            background: var(--primary-orange);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .meal-time {
+            color: var(--text-muted);
+            font-weight: normal;
+            font-size: 0.9rem;
+        }
+
+        .meal-calories {
+            font-weight: 600;
+            color: var(--primary-orange);
+            font-size: 1.1rem;
+        }
+
+        .meal-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: var(--light-beige);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-details .item-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .item-details .item-quantity {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            margin-top: 0.25rem;
+        }
+
+        .item-properties {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .item-calories {
+            font-weight: 600;
+            color: var(--secondary-teal);
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 300px;
+            position: relative;
+        }
+
+        .chart-container canvas {
+            max-height: 250px !important;
+        }
+
+        /* Chart loading state */
+        .chart-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 250px;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .guidelines-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+
+        .guidelines-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .guidelines-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light-beige);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .guidelines-list li:before {
+            content: '•';
+            color: var(--primary-orange);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .guidelines-list li:last-child {
+            border-bottom: none;
+        }
+
+        .restrictions-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .restriction-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .restriction-tag {
+            background: #fff5f5;
+            color: #dc3545;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #fecaca;
+        }
+
+        .diet-chart-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--light-beige), white);
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        /* Loading States */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body ng-app="nutrivedaApp" ng-controller="MainController">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <div class="logo-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                NutriVeda
+                <small style="font-size: 0.7rem; color: var(--text-muted); margin-left: 8px;">Ayurvedic Nutrition Platform</small>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto nav-pills">
+                    <li class="nav-item">
+                        <span class="navbar-text me-3">
+                            <i class="fas fa-user me-1"></i>Welcome, <span id="userName">User</span>
+                            <span class="badge bg-primary ms-2" id="userRole">Role</span>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-class="{'active': activeTab === 'dashboard'}" href="#" ng-click="setActiveTab('dashboard')">
+                            <i class="fas fa-home me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item" data-admin-only>
+                        <a class="nav-link" ng-class="{'active': activeTab === 'patients'}" href="#" ng-click="setActiveTab('patients')">
+                            <i class="fas fa-users me-2"></i>Patients
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-class="{'active': activeTab === 'food-database'}" href="#" ng-click="setActiveTab('food-database')">
+                            <i class="fas fa-apple-alt me-2"></i>Food Database
+                        </a>
+                    </li>
+                    <li class="nav-item" data-admin-only>
+                        <a class="nav-link" ng-class="{'active': activeTab === 'diet-charts'}" href="#" ng-click="setActiveTab('diet-charts')">
+                            <i class="fas fa-chart-pie me-2"></i>Diet Charts
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" ng-class="{'active': activeTab === 'dosha'}" href="#" ng-click="setActiveTab('dosha')">
+                            <i class="fas fa-yin-yang me-2"></i>Dosha Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-danger btn-sm ms-2" onclick="logout()">
+                            <i class="fas fa-sign-out-alt me-1"></i>Logout
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Dashboard Home -->
+        <div ng-show="activeTab === 'dashboard'" class="animate-fade-in">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">Welcome to NutriVeda</h1>
+                    <p class="hero-subtitle">Comprehensive Ayurvedic Nutrition Management Platform</p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary" ng-click="setActiveTab('patients'); showNewPatientForm = true">
+                            <i class="fas fa-user-plus me-2"></i>Manage Patients
+                        </button>
+                        <button class="btn btn-secondary" ng-click="setActiveTab('food-database')">
+                            <i class="fas fa-apple-alt me-2"></i>Explore Food Database
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-illustration">
+                    <img src="static/images/hhe-removebg-preview.png" alt="Mortar and Pestle" class="mortar-pestle">
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number">{{patients.length}}</div>
+                            <div class="stat-label">Total Patients</div>
+                        </div>
+                        <div class="stat-icon" style="background: var(--primary-orange);">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Registered patients</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number">{{dietCharts.length}}</div>
+                            <div class="stat-label">Diet Charts</div>
+                        </div>
+                        <div class="stat-icon" style="background: var(--secondary-teal);">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Active diet plans</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number">{{foodDatabase.length}}</div>
+                            <div class="stat-label">Food Items</div>
+                        </div>
+                        <div class="stat-icon" style="background: var(--success-green);">
+                            <i class="fas fa-apple-alt"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">In database</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-number">{{todayAppointments}}</div>
+                            <div class="stat-label">Today's Consultations</div>
+                        </div>
+                        <div class="stat-icon" style="background: var(--warning-orange);">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                    <small class="text-muted">Scheduled appointments</small>
+                </div>
+            </div>
+
+            <!-- Main Dashboard Grid -->
+            <div class="dashboard-grid">
+                <div class="main-content">
+                    <!-- Quick Actions -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-bolt me-2 text-warning"></i>Quick Actions
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted mb-3">Get started with common tasks</p>
+                            <div class="d-flex flex-wrap gap-3">
+                                <button class="btn btn-primary" ng-click="setActiveTab('patients'); showNewPatientForm = true">
+                                    <i class="fas fa-user-plus me-2"></i>Add New Patient
+                                </button>
+                                <button class="btn btn-primary" ng-click="setActiveTab('diet-charts'); showNewDietChart = true">
+                                    <i class="fas fa-file-medical me-2"></i>Create Diet Chart
+                                </button>
+                                <button class="btn btn-secondary" ng-click="setActiveTab('dosha')">
+                                    <i class="fas fa-diagnoses me-2"></i>Start Dosha Assessment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-content">
+                    <!-- Recent Activities -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-clock me-2 text-info"></i>Recent Activities
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="activity-item" ng-repeat="activity in recentActivities | limitTo:6">
+                                <div class="activity-icon" ng-class="activity.type">
+                                    <i class="fas" ng-class="activity.icon"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">{{activity.description}}</div>
+                                    <div class="activity-time">{{activity.time}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Built-in Diet Chart Generator -->
+        <div ng-show="activeTab === 'diet-charts'" class="animate-fade-in">
+            <div class="content-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-pie me-2 text-warning"></i>Diet Chart Generator
+                    </h3>
+                    <button class="btn btn-primary" ng-click="showNewDietChart = true">
+                        <i class="fas fa-plus me-2"></i>Generate New Chart
+                    </button>
+                </div>
+
+                <!-- Diet Chart Creation Form -->
+                <div ng-show="showNewDietChart" class="card-body" style="background: var(--light-beige);">
+                    <h4 class="mb-4">
+                        <i class="fas fa-file-medical me-2"></i>Create Personalized Diet Chart
+                    </h4>
+                    <form ng-submit="createDietChartForPatient()" class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Select Patient *</label>
+                            <select class="form-select" ng-model="selectedPatientId" required>
+                                <option value="">Choose patient...</option>
+                                <option ng-repeat="patient in patients" value="{{patient.id}}">
+                                    {{patient.name}} ({{patient.prakriti}})
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Goal *</label>
+                            <select class="form-select" ng-model="dietChartGoal" required>
+                                <option value="Weight Loss">Weight Loss</option>
+                                <option value="Weight Gain">Weight Gain</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Therapeutic">Therapeutic</option>
+                                <option value="Detox">Detox</option>
+                                <option value="Digestive Health">Digestive Health</option>
+                                <option value="Immunity Boost">Immunity Boost</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Target Calories *</label>
+                            <input type="number" class="form-control" ng-model="targetCalories" 
+                                   placeholder="e.g., 2000" min="1200" max="4000" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Duration (Days) *</label>
+                            <input type="number" class="form-control" ng-model="chartDuration" 
+                                   placeholder="e.g., 30" min="7" max="365" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Meal Frequency</label>
+                            <select class="form-select" ng-model="mealFrequency">
+                                <option value="3">3 meals/day</option>
+                                <option value="4">4 meals/day</option>
+                                <option value="5">5 meals/day</option>
+                                <option value="6">6 meals/day</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Special Considerations</label>
+                            <textarea class="form-control" rows="3" ng-model="specialConsiderations" 
+                                      placeholder="Allergies, medical conditions, preferences..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Activity Level</label>
+                            <select class="form-select" ng-model="activityLevel">
+                                <option value="Sedentary">Sedentary (office job)</option>
+                                <option value="Light">Light (light exercise 1-3 days/week)</option>
+                                <option value="Moderate">Moderate (moderate exercise 3-5 days/week)</option>
+                                <option value="Active">Active (hard exercise 6-7 days/week)</option>
+                                <option value="Very Active">Very Active (very hard exercise, physical job)</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-flex gap-2 mt-3">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-magic me-2"></i>Generate Diet Chart
+                                </button>
+                                <button type="button" class="btn btn-secondary" ng-click="showNewDietChart = false">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Generated Diet Chart Display -->
+                <div ng-show="generatedChart" class="card-body">
+                    <div class="diet-chart-header d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 class="mb-1">Diet Chart for {{generatedChart.patientName}}</h3>
+                            <p class="text-muted mb-0">Constitutional Type: {{generatedChart.constitution}}</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-success" onclick="window.print()">
+                                <i class="fas fa-print me-2"></i>Print
+                            </button>
+                            <button class="btn btn-info" ng-click="downloadPDF()">
+                                <i class="fas fa-download me-2"></i>Download PDF
+                            </button>
+                            <button class="btn btn-primary" ng-click="exportChartData()">
+                                <i class="fas fa-file-export me-2"></i>Export Data
+                            </button>
+                            <button class="btn btn-warning" ng-click="shareChart()">
+                                <i class="fas fa-share me-2"></i>Share
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chart Summary -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="summary-card">
+                                <div class="summary-icon bg-primary">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">Goal</div>
+                                    <div class="summary-value">{{generatedChart.goal}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="summary-card">
+                                <div class="summary-icon bg-warning">
+                                    <i class="fas fa-fire"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">Daily Calories</div>
+                                    <div class="summary-value">{{generatedChart.calories}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="summary-card">
+                                <div class="summary-icon bg-info">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">Duration</div>
+                                    <div class="summary-value">{{generatedChart.duration}} days</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="summary-card">
+                                <div class="summary-icon bg-success">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <div class="summary-label">Created</div>
+                                    <div class="summary-value">{{generatedChart.date}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Meal Plan -->
+                    <div class="meal-plan">
+                        <h4 class="mb-3">
+                            <i class="fas fa-utensils me-2"></i>Daily Meal Plan
+                        </h4>
+                        <div class="meal-section" ng-repeat="meal in generatedChart.meals">
+                            <div class="meal-header">
+                                <div class="meal-title-section">
+                                    <h5 class="meal-title">
+                                        <i class="fas fa-utensils me-2"></i>{{meal.name}}
+                                    </h5>
+                                    <div class="meal-time-badge">
+                                        <i class="fas fa-clock me-1"></i>{{meal.time}}
+                                    </div>
+                                </div>
+                                <div class="meal-calories">{{meal.totalCalories}} kcal</div>
+                            </div>
+                            
+                            <div class="meal-items">
+                                <div class="meal-item" ng-repeat="item in meal.items">
+                                    <div class="item-details">
+                                        <div class="item-name">
+                                            <i class="fas fa-circle me-2" style="font-size: 0.5rem; color: var(--primary-orange);"></i>
+                                            {{item.name}}
+                                        </div>
+                                        <div class="item-quantity">
+                                            <i class="fas fa-weight me-1"></i>{{item.quantity}}
+                                        </div>
+                                    </div>
+                                    <div class="item-properties">
+                                        <span class="property-badge" ng-class="{
+                                            'badge-hot': item.virya === 'Hot',
+                                            'badge-cold': item.virya === 'Cold'
+                                        }">
+                                            <i class="fas" ng-class="item.virya === 'Hot' ? 'fa-fire' : 'fa-snowflake'"></i>
+                                            {{item.virya}}
+                                        </span>
+                                        <div class="item-calories">
+                                            <i class="fas fa-bolt me-1"></i>{{item.calories}} kcal
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nutritional Analysis Charts -->
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="text-center mb-3">
+                                    <i class="fas fa-chart-pie me-2"></i>Macronutrient Distribution
+                                </h5>
+                                <div ng-show="!generatedChart" class="chart-loading">
+                                    <i class="fas fa-spinner fa-spin me-2"></i>Loading chart...
+                                </div>
+                                <canvas id="nutrientChart" ng-show="generatedChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="text-center mb-3">
+                                    <i class="fas fa-chart-radar me-2"></i>Six Tastes Balance
+                                </h5>
+                                <div ng-show="!generatedChart" class="chart-loading">
+                                    <i class="fas fa-spinner fa-spin me-2"></i>Loading chart...
+                                </div>
+                                <canvas id="rasaChart" ng-show="generatedChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="text-center mb-3">
+                                    <i class="fas fa-chart-bar me-2"></i>Dosha Balance
+                                </h5>
+                                <div ng-show="!generatedChart" class="chart-loading">
+                                    <i class="fas fa-spinner fa-spin me-2"></i>Loading chart...
+                                </div>
+                                <canvas id="doshaChart" ng-show="generatedChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guidelines and Recommendations -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="guidelines-section">
+                                <h5>
+                                    <i class="fas fa-lightbulb me-2 text-warning"></i>Ayurvedic Guidelines
+                                </h5>
+                                <ul class="guidelines-list">
+                                    <li ng-repeat="guideline in generatedChart.guidelines">{{guideline}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="guidelines-section">
+                                <h5>
+                                    <i class="fas fa-leaf me-2 text-success"></i>Seasonal Recommendations
+                                </h5>
+                                <ul class="guidelines-list">
+                                    <li ng-repeat="recommendation in generatedChart.seasonalRecommendations">{{recommendation}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Foods to Avoid -->
+                    <div class="restrictions-section mt-4" ng-if="generatedChart.doNotEat.length">
+                        <h5>
+                            <i class="fas fa-exclamation-triangle me-2 text-danger"></i>Foods to Limit or Avoid
+                        </h5>
+                        <div class="restriction-tags">
+                            <span class="restriction-tag" ng-repeat="restriction in generatedChart.doNotEat">
+                                {{restriction}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diet Charts History -->
+            <div class="content-card" ng-if="dietCharts.length">
+                <div class="card-header">
+                    <h4 class="card-title">
+                        <i class="fas fa-history me-2 text-info"></i>Previous Diet Charts
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Goal</th>
+                                    <th>Created Date</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="chart in dietCharts">
+                                    <td>{{chart.patientName}}</td>
+                                    <td>{{chart.goal}}</td>
+                                    <td>{{chart.createdDate}}</td>
+                                    <td>{{chart.chart.duration}} days</td>
+                                    <td>
+                                        <span class="badge bg-success">Active</span>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm">
+                                            <button class="btn btn-outline-primary" ng-click="viewChart(chart)" title="View Chart">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-outline-success" ng-click="duplicateChart(chart)" title="Duplicate Chart">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                            <button class="btn btn-outline-info" ng-click="editChart(chart)" title="Edit Chart">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" ng-click="deleteDietChart(chart)" title="Delete Chart">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Include other sections (patients, food-database, etc.) -->
+        <div ng-include="'templates/patients.html'" ng-show="activeTab === 'patients'" data-admin-only></div>
+        <div ng-include="'templates/food-database.html'" ng-show="activeTab === 'food-database'"></div>
+        <div ng-include="'templates/dosha-analysis.html'" ng-show="activeTab === 'dosha'"></div>
+    </div>
+
+    <!-- Angular App Script -->
+    <script src="static/js/app.js?v=20240910-002"></script>
+    
+    <!-- Authentication and Role Management -->
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Set user info
+            const userName = localStorage.getItem('username') || 'User';
+            const userRole = localStorage.getItem('userRole') || 'guest';
+            
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('userRole').textContent = userRole.toUpperCase();
+            
+            if (userRole === 'patient') {
+                // Hide admin-only features for patients
+                const adminFeatures = document.querySelectorAll('[data-admin-only]');
+                adminFeatures.forEach(feature => feature.style.display = 'none');
+            }
+        });
+        
+        // Logout function
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+    </script>
+    
+    <!-- Botpress Chatbot -->
+    <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/09/05/18/20250905180324-FA28DV4A.js" defer></script>
+</body>
+</html>

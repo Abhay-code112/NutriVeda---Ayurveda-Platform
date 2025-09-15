@@ -1,0 +1,291 @@
+<!-- Food Database Section -->
+<div class="animate-fade-in">
+    <div class="content-card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-apple-alt me-2 text-success"></i>Comprehensive Food Database
+            </h3>
+            <p class="mb-0 text-muted">8000+ food items with complete Ayurvedic properties</p>
+        </div>
+
+        <div class="card-body">
+            <!-- Search and Filter Section -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="position-relative">
+                        <i class="fas fa-search position-absolute" style="left: 15px; top: 50%; transform: translateY(-50%); color: #999;"></i>
+                        <input type="text" class="form-control ps-5" placeholder="Search food items..." 
+                               ng-model="foodSearch" style="padding-left: 3rem;">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-outline-primary btn-sm" ng-click="filterByCategory('')" 
+                                ng-class="{'active': !selectedFoodCategory}">All</button>
+                        <button class="btn btn-outline-primary btn-sm" ng-click="filterByCategory('Grains')" 
+                                ng-class="{'active': selectedFoodCategory === 'Grains'}">Grains</button>
+                        <button class="btn btn-outline-primary btn-sm" ng-click="filterByCategory('Vegetables')" 
+                                ng-class="{'active': selectedFoodCategory === 'Vegetables'}">Vegetables</button>
+                        <button class="btn btn-outline-primary btn-sm" ng-click="filterByCategory('Fruits')" 
+                                ng-class="{'active': selectedFoodCategory === 'Fruits'}">Fruits</button>
+                        <button class="btn btn-outline-primary btn-sm" ng-click="filterByCategory('Dairy')" 
+                                ng-class="{'active': selectedFoodCategory === 'Dairy'}">Dairy</button>
+                        <button class="btn btn-outline-primary btn-sm" ng-click="filterByCategory('Proteins')" 
+                                ng-class="{'active': selectedFoodCategory === 'Proteins'}">Proteins</button>
+                        <button class="btn btn-outline-primary btn-sm" ng-click="filterByCategory('Spices')" 
+                                ng-class="{'active': selectedFoodCategory === 'Spices'}">Spices</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food Items Grid -->
+            <div class="food-grid">
+                <div class="food-item" 
+                     ng-repeat="food in displayedFoods">
+                    
+                    <!-- Food Header -->
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h5 class="food-name mb-1">{{food.name}}</h5>
+                            <span class="badge bg-secondary">{{food.category}}</span>
+                        </div>
+                        <div class="text-end">
+                            <div class="fw-bold text-primary">{{food.calories}} kcal</div>
+                            <small class="text-muted">per {{food.serving}}</small>
+                        </div>
+                    </div>
+
+                    <!-- Nutritional Information -->
+                    <div class="row text-center mb-3">
+                        <div class="col-3">
+                            <div class="nutrition-stat">
+                                <div class="fw-bold">{{food.protein}}g</div>
+                                <small class="text-muted">Protein</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="nutrition-stat">
+                                <div class="fw-bold">{{food.carbs}}g</div>
+                                <small class="text-muted">Carbs</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="nutrition-stat">
+                                <div class="fw-bold">{{food.fat}}g</div>
+                                <small class="text-muted">Fat</small>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="nutrition-stat">
+                                <div class="fw-bold">{{food.fiber || 0}}g</div>
+                                <small class="text-muted">Fiber</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ayurvedic Properties -->
+                    <div class="ayurvedic-properties mb-3">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="property-item">
+                                    <i class="fas fa-thermometer-half me-1"></i>
+                                    <span class="property-badge" ng-class="{
+                                        'badge-hot': food.virya === 'Hot',
+                                        'badge-cold': food.virya === 'Cold'
+                                    }">{{food.virya}}</span>
+                                </div>
+                                <small class="d-block text-muted">Virya</small>
+                            </div>
+                            <div class="col-4">
+                                <div class="property-item">
+                                    <i class="fas fa-weight me-1"></i>
+                                    <span class="property-badge" ng-class="{
+                                        'badge-easy': food.digestion === 'Easy',
+                                        'badge-heavy': food.digestion === 'Hard' || food.digestion === 'Heavy'
+                                    }">{{food.digestion}}</span>
+                                </div>
+                                <small class="d-block text-muted">Digestion</small>
+                            </div>
+                            <div class="col-4">
+                                <div class="property-item">
+                                    <i class="fas fa-palette me-1"></i>
+                                    <span class="property-badge bg-info text-white">{{food.rasa}}</span>
+                                </div>
+                                <small class="d-block text-muted">Rasa</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dosha Effects -->
+                    <div class="dosha-effects">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="dosha-effect vata">
+                                    <span class="dosha-symbol">{{food.vata}}</span>
+                                    <small class="d-block">Vata</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="dosha-effect pitta">
+                                    <span class="dosha-symbol">{{food.pitta}}</span>
+                                    <small class="d-block">Pitta</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="dosha-effect kapha">
+                                    <span class="dosha-symbol">{{food.kapha}}</span>
+                                    <small class="d-block">Kapha</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information (expandable) -->
+                    <div class="mt-3" ng-if="food.benefits || food.precautions">
+                        <button class="btn btn-sm btn-outline-secondary w-100" 
+                                ng-click="food.showDetails = !food.showDetails">
+                            <i class="fas" ng-class="{'fa-chevron-down': !food.showDetails, 'fa-chevron-up': food.showDetails}"></i>
+                            More Details
+                        </button>
+                        
+                        <div ng-show="food.showDetails" class="mt-3">
+                            <div ng-if="food.benefits">
+                                <h6 class="text-success">
+                                    <i class="fas fa-check-circle me-1"></i>Benefits
+                                </h6>
+                                <ul class="list-unstyled mb-2">
+                                    <li ng-repeat="benefit in food.benefits">
+                                        <small><i class="fas fa-plus text-success me-1"></i>{{benefit}}</small>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div ng-if="food.precautions">
+                                <h6 class="text-warning">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>Precautions
+                                </h6>
+                                <ul class="list-unstyled">
+                                    <li ng-repeat="precaution in food.precautions">
+                                        <small><i class="fas fa-minus text-warning me-1"></i>{{precaution}}</small>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-4" ng-if="hasMoreFoods()">
+                <button class="btn btn-outline-primary" ng-click="loadMoreFoods()">
+                    <i class="fas fa-plus me-2"></i>Load More Items
+                </button>
+            </div>
+
+            <!-- Food Count Display -->
+            <div class="text-center mt-4">
+                <p class="text-muted">
+                    Showing {{displayedFoods.length}} of {{filteredFoods.length}} food items
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Food Categories Overview -->
+    <div class="content-card">
+        <div class="card-header">
+            <h4 class="card-title">
+                <i class="fas fa-chart-pie me-2 text-info"></i>Food Categories Overview
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <canvas id="foodCategoryChart" style="max-height: 300px;"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <div class="category-stats">
+                        <div class="stat-item" ng-repeat="category in ['Grains', 'Vegetables', 'Fruits', 'Dairy', 'Proteins', 'Spices']">
+                            <div class="d-flex justify-content-between align-items-center p-2 border-bottom">
+                                <span class="fw-bold">{{category}}</span>
+                                <span class="badge bg-primary">
+                                    {{(foodDatabase | filter:{category:category}).length}} items
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.food-item {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.food-item:hover {
+    border-color: var(--primary-orange);
+    box-shadow: 0 4px 15px rgba(230, 139, 71, 0.15);
+    transform: translateY(-2px);
+}
+
+.nutrition-stat {
+    padding: 0.5rem;
+    background: var(--light-beige);
+    border-radius: 8px;
+}
+
+.property-item {
+    margin-bottom: 0.25rem;
+}
+
+.dosha-effect {
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: #f8f9fa;
+}
+
+.dosha-effect.vata { border-left: 3px solid #667eea; }
+.dosha-effect.pitta { border-left: 3px solid #ff6b6b; }
+.dosha-effect.kapha { border-left: 3px solid #28a745; }
+
+.dosha-symbol {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.property-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.badge-hot { background: #ffe0e0; color: #d32f2f; }
+.badge-cold { background: #e0f2ff; color: #1976d2; }
+.badge-easy { background: #e8f5e9; color: #388e3c; }
+.badge-heavy { background: #fff3e0; color: #f57c00; }
+
+.btn-outline-primary.active {
+    background: var(--primary-orange);
+    border-color: var(--primary-orange);
+    color: white;
+}
+
+.category-stats .stat-item:last-child {
+    border-bottom: none !important;
+}
+</style>

@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriVeda - Ayurvedic Nutrition Platform</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #FF6B35;
+            --secondary-color: #004E64;
+            --accent-color: #25A18E;
+            --light-bg: #F7F9FA;
+            --text-dark: #2C3E50;
+            --vata-color: #667eea;
+            --pitta-color: #ff6b6b;
+            --kapha-color: #28a745;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link {
+            color: var(--text-dark) !important;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        /* Main Dashboard */
+        .dashboard-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* Patient Form */
+        .form-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+        }
+
+        /* Food Database */
+        .food-search {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .food-search input {
+            padding-left: 3rem;
+        }
+
+        .food-search i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+
+        .food-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .food-item:hover {
+            background: #f8f9fa;
+            border-color: var(--primary-color);
+        }
+
+        .food-properties {
+            display: flex;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+
+        .property-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .hot-property {
+            background: #ffe0e0;
+            color: #d32f2f;
+        }
+
+        .cold-property {
+            background: #e0f2ff;
+            color: #1976d2;
+        }
+
+        .easy-digest {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .hard-digest {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        /* Diet Chart */
+        .diet-chart {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .meal-section {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meal-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .meal-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Rasa Wheel */
+        .rasa-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 2rem auto;
+        }
+
+        /* Dosha Analysis */
+        .dosha-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .dosha-result {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .dosha-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            height: 30px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .dosha-fill {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 1s ease;
+        }
+
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 2rem 0;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs .nav-link {
+            border: none;
+            color: #666;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            background: transparent;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Print Styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            .diet-chart {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+
+            .food-properties {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body ng-app="nutrivedaApp" ng-controller="MainController">
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-leaf"></i> NutriVeda
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" ng-click="setActiveTab('dashboard')">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item" data-admin-only>
+                        <a class="nav-link" href="#" ng-click="setActiveTab('patients')">
+                            <i class="fas fa-users"></i> Patients
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" ng-click="setActiveTab('food-database')">
+                            <i class="fas fa-apple-alt"></i> Food Database
+                        </a>
+                    </li>
+                    <li class="nav-item" data-admin-only>
+                        <a class="nav-link" href="#" ng-click="setActiveTab('diet-charts')">
+                            <i class="fas fa-chart-pie"></i> Diet Charts
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" ng-click="setActiveTab('dosha')">
+                            <i class="fas fa-yin-yang"></i> Dosha Analysis
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> <span id="userName">User</span>
+                            <span class="badge bg-primary ms-2" id="userRole">Role</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+
+        <div ng-show="activeTab === 'dashboard'">
+            <div class="dashboard-card">
+                <h2 class="mb-4">Welcome to NutriVeda Dashboard</h2>
+
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <i class="fas fa-users fa-2x mb-2"></i>
+                            <div class="stat-number">{{patients.length}}</div>
+                            <div>Total Patients</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <i class="fas fa-clipboard-list fa-2x mb-2"></i>
+                            <div class="stat-number">{{dietCharts.length}}</div>
+                            <div>Diet Charts</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <i class="fas fa-apple-alt fa-2x mb-2"></i>
+                            <div class="stat-number">{{foodDatabase.length}}</div>
+                            <div>Food Items</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <i class="fas fa-calendar-check fa-2x mb-2"></i>
+                            <div class="stat-number">{{todayAppointments}}</div>
+                            <div>Today's Appointments</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Quick Actions</h4>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" ng-click="setActiveTab('patients'); showNewPatientForm = true">
+                                <i class="fas fa-user-plus"></i> Add New Patient
+                            </button>
+                            <button class="btn btn-primary" ng-click="setActiveTab('diet-charts'); showNewDietChart = true">
+                                <i class="fas fa-file-medical"></i> Create Diet Chart
+                            </button>
+                            <button class="btn btn-primary" ng-click="setActiveTab('dosha')">
+                                <i class="fas fa-diagnoses"></i> Dosha Assessment
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Recent Activities</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="activity in recentActivities | limitTo:5">
+                                <i class="fas fa-circle text-success me-2"></i>
+                                {{activity.description}}
+                                <small class="text-muted float-end">{{activity.time}}</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="activeTab === 'patients'">
+            <div class="dashboard-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Patient Management</h2>
+                    <button class="btn btn-primary" ng-click="showNewPatientForm = !showNewPatientForm">
+                        <i class="fas fa-plus"></i> Add New Patient
+                    </button>
+                </div>
+
+                <div ng-show="showNewPatientForm" class="form-section">
+                    <h4>New Patient Registration</h4>
+                    <form ng-submit="addPatient()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" ng-model="newPatient.name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Age</label>
+                                    <input type="number" class="form-control" ng-model="newPatient.age" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Gender</label>
+                                    <select class="form-select" ng-model="newPatient.gender" required>
+                                        <option value="">Select...</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Height (cm)</label>
+                                    <input type="number" class="form-control" ng-model="newPatient.height">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Weight (kg)</label>
+                                    <input type="number" class="form-control" ng-model="newPatient.weight">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Prakriti (Constitution)</label>
+                                    <select class="form-select" ng-model="newPatient.prakriti">
+                                        <option value="">Select...</option>
+                                        <option value="Vata">Vata</option>
+                                        <option value="Pitta">Pitta</option>
+                                        <option value="Kapha">Kapha</option>
+                                        <option value="Vata-Pitta">Vata-Pitta</option>
+                                        <option value="Pitta-Kapha">Pitta-Kapha</option>
+                                        <option value="Vata-Kapha">Vata-Kapha</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Dietary Preference</label>
+                                    <select class="form-select" ng-model="newPatient.diet">
+                                        <option value="Vegetarian">Vegetarian</option>
+                                        <option value="Non-Vegetarian">Non-Vegetarian</option>
+                                        <option value="Vegan">Vegan</option>
+                                        <option value="Jain">Jain</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Meal Frequency</label>
+                                    <select class="form-select" ng-model="newPatient.mealFrequency">
+                                        <option value="2">2 times/day</option>
+                                        <option value="3">3 times/day</option>
+                                        <option value="4">4 times/day</option>
+                                        <option value="5">5 times/day</option>
+                                        <option value="6">6 times/day</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Water Intake (L/day)</label>
+                                    <input type="number" step="0.5" class="form-control" ng-model="newPatient.waterIntake">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Bowel Movement</label>
+                                    <select class="form-select" ng-model="newPatient.bowelMovement">
+                                        <option value="Regular">Regular</option>
+                                        <option value="Constipated">Constipated</option>
+                                        <option value="Loose">Loose</option>
+                                        <option value="Irregular">Irregular</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Medical History</label>
+                                    <textarea class="form-control" rows="3" ng-model="newPatient.medicalHistory"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Current Medications</label>
+                                    <textarea class="form-control" rows="3" ng-model="newPatient.medications"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Save Patient</button>
+                            <button type="button" class="btn btn-secondary" ng-click="showNewPatientForm = false">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age/Gender</th>
+                                <th>Prakriti</th>
+                                <th>Diet Type</th>
+                                <th>Last Visit</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="patient in patients">
+                                <td>#{{patient.id}}</td>
+                                <td>{{patient.name}}</td>
+                                <td>{{patient.age}} / {{patient.gender}}</td>
+                                <td>
+                                    <span class="badge bg-primary">{{patient.prakriti}}</span>
+                                </td>
+                                <td>{{patient.diet}}</td>
+                                <td>{{patient.lastVisit}}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" ng-click="viewPatient(patient)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-success" ng-click="createDietChart(patient)">
+                                        <i class="fas fa-file-medical"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="activeTab === 'food-database'">
+            <div class="dashboard-card">
+                <h2 class="mb-4">Food Database</h2>
+
+                <div class="food-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Search food items..." ng-model="foodSearch">
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-outline-primary me-2" ng-click="foodFilter = ''">All</button>
+                    <button class="btn btn-outline-primary me-2" ng-click="foodFilter = 'Grains'">Grains</button>
+                    <button class="btn btn-outline-primary me-2" ng-click="foodFilter = 'Vegetables'">Vegetables</button>
+                    <button class="btn btn-outline-primary me-2" ng-click="foodFilter = 'Fruits'">Fruits</button>
+                    <button class="btn btn-outline-primary me-2" ng-click="foodFilter = 'Dairy'">Dairy</button>
+                    <button class="btn btn-outline-primary me-2" ng-click="foodFilter = 'Proteins'">Proteins</button>
+                    <button class="btn btn-outline-primary me-2" ng-click="foodFilter = 'Spices'">Spices</button>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6" ng-repeat="food in foodDatabase | filter:foodSearch | filter:{category:foodFilter}">
+                        <div class="food-item">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5>{{food.name}}</h5>
+                                    <p class="text-muted mb-2">{{food.category}} | {{food.calories}} kcal per {{food.serving}}</p>
+                                    <div class="food-properties">
+                                        <span class="property-badge" ng-class="{'hot-property': food.virya === 'Hot', 'cold-property': food.virya === 'Cold'}">
+                                            {{food.virya}}
+                                        </span>
+                                        <span class="property-badge" ng-class="{'easy-digest': food.digestion === 'Easy', 'hard-digest': food.digestion === 'Hard'}">
+                                            {{food.digestion}} to digest
+                                        </span>
+                                        <span class="property-badge bg-info text-white">
+                                            {{food.rasa}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="d-block text-muted">Protein: {{food.protein}}g</small>
+                                    <small class="d-block text-muted">Carbs: {{food.carbs}}g</small>
+                                    <small class="d-block text-muted">Fat: {{food.fat}}g</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="activeTab === 'diet-charts'">
+            <div class="dashboard-card">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Diet Chart Generator</h2>
+                    <button class="btn btn-primary" ng-click="generateNewDietChart()">
+                        <i class="fas fa-plus"></i> Generate New Chart
+                    </button>
+                </div>
+
+                <div ng-show="showDietChartForm" class="form-section">
+                    <h4>Create Diet Chart</h4>
+                    <form ng-submit="createDietChartForPatient()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Select Patient</label>
+                                    <select class="form-select" ng-model="selectedPatientForChart" ng-options="patient.name for patient in patients">
+                                        <option value="">Choose patient...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Goal</label>
+                                    <select class="form-select" ng-model="dietChartGoal">
+                                        <option value="Weight Loss">Weight Loss</option>
+                                        <option value="Weight Gain">Weight Gain</option>
+                                        <option value="Maintenance">Maintenance</option>
+                                        <option value="Therapeutic">Therapeutic</option>
+                                        <option value="Detox">Detox</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Target Calories</label>
+                                    <input type="number" class="form-control" ng-model="targetCalories" placeholder="e.g., 2000">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Duration (Days)</label>
+                                    <input type="number" class="form-control" ng-model="chartDuration" placeholder="e.g., 30">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Generate Diet Chart</button>
+                    </form>
+                </div>
+
+                <div ng-show="generatedChart" class="diet-chart">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3>Diet Chart for {{generatedChart.patientName}}</h3>
+                        <button class="btn btn-success" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print
+                        </button>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <strong>Goal:</strong> {{generatedChart.goal}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Daily Calories:</strong> {{generatedChart.calories}}
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Duration:</strong> {{generatedChart.duration}} days
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Date:</strong> {{generatedChart.date}}
+                        </div>
+                    </div>
+
+                    <div class="meal-section" ng-repeat="meal in generatedChart.meals">
+                        <h4 class="meal-title">{{meal.name}} ({{meal.time}})</h4>
+                        <div class="meal-item" ng-repeat="item in meal.items">
+                            <div>
+                                <strong>{{item.name}}</strong>
+                                <small class="text-muted d-block">{{item.quantity}} | {{item.calories}} kcal</small>
+                            </div>
+                            <div>
+                                <span class="property-badge" ng-class="{'hot-property': item.virya === 'Hot', 'cold-property': item.virya === 'Cold'}">
+                                    {{item.virya}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-end">
+                            <small>Total: {{meal.totalCalories}} kcal</small>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <canvas id="nutrientChart"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="rasaChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="activeTab === 'dosha'">
+            <div class="dashboard-card">
+                <h2 class="mb-4">AI Dosha Detection System</h2>
+
+                <div id="dosha-detector-frame" style="width: 100%; height: 600px; border: none; border-radius: 10px; overflow: hidden;">
+                    </div>
+
+                <div class="mt-4">
+                    <button class="btn btn-primary" onclick="runDoshaAssessment()">
+                        <i class="fas fa-play"></i> Start Dosha Assessment
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Include Template Sections -->
+    <div ng-include="'templates/patients.html'" ng-show="activeTab === 'patients'" data-admin-only></div>
+    <div ng-include="'templates/food-database.html'" ng-show="activeTab === 'food-database'"></div>
+    <div ng-include="'templates/diet-charts.html'" ng-show="activeTab === 'diet-charts'" data-admin-only></div>
+    <div ng-include="'templates/dosha-analysis.html'" ng-show="activeTab === 'dosha'"></div>
+
+    <script>
+        // Initialize Angular App
+        angular.module('nutrivedaApp', [])
+        .controller('MainController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
+
+            // Initialize scope variables
+            $scope.activeTab = 'dashboard';
+            $scope.patients = [];
+            $scope.dietCharts = [];
+            $scope.todayAppointments = 5;
+            $scope.showNewPatientForm = false;
+            $scope.showDietChartForm = false;
+            $scope.newPatient = {};
+            $scope.generatedChart = null;
+
+            // Food Database (Sample Data - In production, this would come from backend)
+            $scope.foodDatabase = [
+                {
+                    id: 1,
+                    name: "Basmati Rice",
+                    category: "Grains",
+                    calories: 205,
+                    serving: "100g cooked",
+                    protein: 4.3,
+                    carbs: 45,
+                    fat: 0.4,
+                    virya: "Cold",
+                    digestion: "Easy",
+                    rasa: "Sweet",
+                    vata: "↓",
+                    pitta: "↓",
+                    kapha: "↑"
+                },
+                {
+                    id: 2,
+                    name: "Moong Dal",
+                    category: "Proteins",
+                    calories: 347,
+                    serving: "100g raw",
+                    protein: 24,
+                    carbs: 63,
+                    fat: 1.2,
+                    virya: "Cold",
+                    digestion: "Easy",
+                    rasa: "Sweet",
+                    vata: "↓",
+                    pitta: "↓",
+                    kapha: "="
+                },
+                {
+                    id: 3,
+                    name: "Ghee",
+                    category: "Dairy",
+                    calories: 900,
+                    serving: "100g",
+                    protein: 0,
+                    carbs: 0,
+                    fat: 100,
+                    virya: "Cold",
+                    digestion: "Easy",
+                    rasa: "Sweet",
+                    vata: "↓",
+                    pitta: "↓",
+                    kapha: "↑"
+                },
+                {
+                    id: 4,
+                    name: "Spinach",
+                    category: "Vegetables",
+                    calories: 23,
+                    serving: "100g raw",
+                    protein: 2.9,
+                    carbs: 3.6,
+                    fat: 0.4,
+                    virya: "Cold",
+                    digestion: "Easy",
+                    rasa: "Bitter",
+                    vata: "↑",
+                    pitta: "↓",
+                    kapha: "↓"
+                },
+                {
+                    id: 5,
+                    name: "Ginger",
+                    category: "Spices",
+                    calories: 80,
+                    serving: "100g",
+                    protein: 1.8,
+                    carbs: 18,
+                    fat: 0.8,
+                    virya: "Hot",
+                    digestion: "Easy",
+                    rasa: "Pungent",
+                    vata: "↓",
+                    pitta: "↑",
+                    kapha: "↓"
+                },
+                {
+                    id: 6,
+                    name: "Turmeric",
+                    category: "Spices",
+                    calories: 354,
+                    serving: "100g",
+                    protein: 7.8,
+                    carbs: 65,
+                    fat: 9.9,
+                    virya: "Hot",
+                    digestion: "Easy",
+                    rasa: "Bitter",
+                    vata: "↓",
+                    pitta: "↑",
+                    kapha: "↓"
+                },
+                {
+                    id: 7,
+                    name: "Apple",
+                    category: "Fruits",
+                    calories: 52,
+                    serving: "100g",
+                    protein: 0.3,
+                    carbs: 14,
+                    fat: 0.2,
+                    virya: "Cold",
+                    digestion: "Easy",
+                    rasa: "Sweet",
+                    vata: "↓",
+                    pitta: "↓",
+                    kapha: "↑"
+                },
+                {
+                    id: 8,
+                    name: "Almonds",
+                    category: "Proteins",
+                    calories: 579,
+                    serving: "100g",
+                    protein: 21,
+                    carbs: 22,
+                    fat: 50,
+                    virya: "Hot",
+                    digestion: "Hard",
+                    rasa: "Sweet",
+                    vata: "↓",
+                    pitta: "↑",
+                    kapha: "↑"
+                }
+            ];
+
+            // Sample Patients Data
+            $scope.patients = [
+                {
+                    id: 1001,
+                    name: "Raj Kumar",
+                    age: 35,
+                    gender: "Male",
+                    prakriti: "Vata",
+                    diet: "Vegetarian",
+                    lastVisit: "2025-09-05",
+                    height: 175,
+                    weight: 70,
+                    mealFrequency: 3,
+                    waterIntake: 3,
+                    bowelMovement: "Regular"
+                },
+                {
+                    id: 1002,
+                    name: "Priya Sharma",
+                    age: 28,
+                    gender: "Female",
+                    prakriti: "Pitta",
+                    diet: "Vegetarian",
+                    lastVisit: "2025-09-08",
+                    height: 165,
+                    weight: 58,
+                    mealFrequency: 4,
+                    waterIntake: 3.5,
+                    bowelMovement: "Regular"
+                }
+            ];
+
+            // Recent Activities
+            $scope.recentActivities = [
+                { description: "New patient registered: Raj Kumar", time: "2 hours ago" },
+                { description: "Diet chart created for Priya Sharma", time: "5 hours ago" },
+                { description: "Dosha assessment completed", time: "1 day ago" },
+                { description: "Food database updated", time: "2 days ago" }
+            ];
+
+            // Functions
+            $scope.setActiveTab = function(tab) {
+                $scope.activeTab = tab;
+                if (tab === 'dosha') {
+                    $timeout(function() {
+                        loadDoshaDetector();
+                    }, 100);
+                }
+            };
+
+            $scope.addPatient = function() {
+                if ($scope.newPatient.name) {
+                    $scope.newPatient.id = 1000 + $scope.patients.length + 1;
+                    $scope.newPatient.lastVisit = new Date().toISOString().split('T')[0];
+                    $scope.patients.push(angular.copy($scope.newPatient));
+
+                    // Add to recent activities
+                    $scope.recentActivities.unshift({
+                        description: "New patient registered: " + $scope.newPatient.name,
+                        time: "Just now"
+                    });
+
+                    // Reset form
+                    $scope.newPatient = {};
+                    $scope.showNewPatientForm = false;
+
+                    // Show success message
+                    alert("Patient registered successfully!");
+                }
+            };
+
+            $scope.generateNewDietChart = function() {
+                $scope.showDietChartForm = true;
+                $scope.targetCalories = 2000;
+                $scope.chartDuration = 30;
+                $scope.dietChartGoal = "Maintenance";
+            };
+
+            $scope.createDietChartForPatient = function() {
+                if ($scope.selectedPatientForChart) {
+                    // Generate sample diet chart
+                    $scope.generatedChart = {
+                        patientName: $scope.selectedPatientForChart.name,
+                        goal: $scope.dietChartGoal,
+                        calories: $scope.targetCalories,
+                        duration: $scope.chartDuration,
+                        date: new Date().toLocaleDateString(),
+                        meals: [
+                            {
+                                name: "Early Morning",
+                                time: "6:00 AM",
+                                items: [
+                                    { name: "Warm Water with Lemon", quantity: "1 glass", calories: 10, virya: "Hot" },
+                                    { name: "Soaked Almonds", quantity: "5-6 pieces", calories: 40, virya: "Hot" }
+                                ],
+                                totalCalories: 50
+                            },
+                            {
+                                name: "Breakfast",
+                                time: "8:00 AM",
+                                items: [
+                                    { name: "Moong Dal Chilla", quantity: "2 pieces", calories: 180, virya: "Cold" },
+                                    { name: "Green Chutney", quantity: "2 tbsp", calories: 20, virya: "Cold" },
+                                    { name: "Herbal Tea", quantity: "1 cup", calories: 5, virya: "Hot" }
+                                ],
+                                totalCalories: 205
+                            },
+                            {
+                                name: "Mid-Morning",
+                                time: "10:30 AM",
+                                items: [
+                                    { name: "Seasonal Fruit", quantity: "1 medium", calories: 80, virya: "Cold" },
+                                    { name: "Buttermilk", quantity: "1 glass", calories: 40, virya: "Cold" }
+                                ],
+                                totalCalories: 120
+                            },
+                            {
+                                name: "Lunch",
+                                time: "1:00 PM",
+                                items: [
+                                    { name: "Rice", quantity: "1 cup cooked", calories: 205, virya: "Cold" },
+                                    { name: "Dal", quantity: "1 bowl", calories: 150, virya: "Cold" },
+                                    { name: "Mixed Vegetables", quantity: "1 bowl", calories: 80, virya: "Cold" },
+                                    { name: "Ghee", quantity: "1 tsp", calories: 45, virya: "Cold" },
+                                    { name: "Salad", quantity: "1 bowl", calories: 30, virya: "Cold" }
+                                ],
+                                totalCalories: 510
+                            },
+                            {
+                                name: "Evening Snack",
+                                time: "5:00 PM",
+                                items: [
+                                    { name: "Roasted Makhana", quantity: "1 bowl", calories: 60, virya: "Cold" },
+                                    { name: "Green Tea", quantity: "1 cup", calories: 2, virya: "Hot" }
+                                ],
+                                totalCalories: 62
+                            },
+                            {
+                                name: "Dinner",
+                                time: "7:30 PM",
+                                items: [
+                                    { name: "Khichdi", quantity: "1.5 bowls", calories: 250, virya: "Cold" },
+                                    { name: "Vegetable Soup", quantity: "1 bowl", calories: 60, virya: "Hot" },
+                                    { name: "Papad", quantity: "2 pieces", calories: 40, virya: "Hot" }
+                                ],
+                                totalCalories: 350
+                            },
+                            {
+                                name: "Bedtime",
+                                time: "10:00 PM",
+                                items: [
+                                    { name: "Turmeric Milk", quantity: "1 cup", calories: 120, virya: "Hot" }
+                                ],
+                                totalCalories: 120
+                            }
+                        ]
+                    };
+
+                    // Draw charts
+                    $timeout(function() {
+                        drawNutrientChart();
+                        drawRasaChart();
+                    }, 100);
+
+                    $scope.showDietChartForm = false;
+
+                    // Add to recent activities
+                    $scope.recentActivities.unshift({
+                        description: "Diet chart created for " + $scope.selectedPatientForChart.name,
+                        time: "Just now"
+                    });
+                }
+            };
+
+            $scope.viewPatient = function(patient) {
+                // In production, this would navigate to patient detail view
+                alert("Viewing patient: " + patient.name);
+            };
+
+            $scope.createDietChart = function(patient) {
+                $scope.selectedPatientForChart = patient;
+                $scope.setActiveTab('diet-charts');
+                $scope.generateNewDietChart();
+            };
+
+            $scope.logout = function() {
+                if (confirm("Are you sure you want to logout?")) {
+                    window.location.reload();
+                }
+            };
+
+            // Chart drawing functions
+            function drawNutrientChart() {
+                const ctx = document.getElementById('nutrientChart');
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Carbohydrates', 'Proteins', 'Fats', 'Fiber'],
+                            datasets: [{
+                                data: [55, 20, 20, 5],
+                                backgroundColor: [
+                                    '#FF6B35',
+                                    '#004E64',
+                                    '#25A18E',
+                                    '#F77B71'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Macronutrient Distribution'
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            function drawRasaChart() {
+                const ctx = document.getElementById('rasaChart');
+                if (ctx) {
+                    new Chart(ctx, {
+                        type: 'radar',
+                        data: {
+                            labels: ['Sweet', 'Sour', 'Salty', 'Pungent', 'Bitter', 'Astringent'],
+                            datasets: [{
+                                label: 'Rasa Distribution',
+                                data: [40, 10, 15, 10, 15, 10],
+                                backgroundColor: 'rgba(255, 107, 53, 0.2)',
+                                borderColor: '#FF6B35',
+                                pointBackgroundColor: '#FF6B35'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Six Tastes (Rasa) Balance'
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+        }]);
+
+        // Load Dosha Detector
+        function loadDoshaDetector() {
+            const doshaFrame = document.getElementById('dosha-detector-frame');
+            if (doshaFrame) {
+                // Load your existing dosha detector HTML
+                doshaFrame.innerHTML = `
+                    <iframe src="index.html" style="width: 100%; height: 100%; border: none;"></iframe>
+                `;
+            }
+        }
+
+        function runDoshaAssessment() {
+            // This would integrate with your existing dosha detector
+            loadDoshaDetector();
+        }
+
+        // Role-based access control
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            if (!localStorage.getItem('username')) {
+                // Redirect to login if not authenticated
+                return;
+            }
+            
+            // Set user info
+            const userName = localStorage.getItem('username') || 'User';
+            const userRole = localStorage.getItem('userRole') || 'guest';
+            
+            // Update user info in UI if elements exist
+            const userNameElement = document.getElementById('userName');
+            const userRoleElement = document.getElementById('userRole');
+            
+            if (userNameElement) userNameElement.textContent = userName;
+            if (userRoleElement) userRoleElement.textContent = userRole.toUpperCase();
+            
+            if (userRole === 'patient') {
+                // Hide admin-only features for patients
+                const adminFeatures = document.querySelectorAll('[data-admin-only]');
+                adminFeatures.forEach(feature => feature.style.display = 'none');
+            }
+        });
+        
+        // Logout function
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'login.html';
+        }
+
+        // Service Worker for offline capability (optional)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(function(err) {
+                console.log('Service Worker registration failed: ', err);
+            });
+        }
+    </script>
+    
+    <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/09/05/18/20250905180324-FA28DV4A.js" defer></script>
+
+</body>
+</html>

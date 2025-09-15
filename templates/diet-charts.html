@@ -1,0 +1,518 @@
+<!-- Diet Charts Section -->
+<div class="animate-fade-in">
+    <div class="content-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title">
+                <i class="fas fa-chart-pie me-2 text-warning"></i>Diet Chart Generator
+            </h3>
+            <button class="btn btn-primary" ng-click="generateNewDietChart()">
+                <i class="fas fa-plus me-2"></i>Generate New Chart
+            </button>
+        </div>
+
+        <!-- Diet Chart Creation Form -->
+        <div ng-show="showNewDietChart" class="card-body" style="background: var(--light-beige);">
+            <h4 class="mb-4">
+                <i class="fas fa-file-medical me-2"></i>Create Personalized Diet Chart
+            </h4>
+            <form ng-submit="createDietChartForPatient()" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Select Patient *</label>
+                    <select class="form-select" ng-model="selectedPatientId" required>
+                        <option value="">Choose patient...</option>
+                        <option ng-repeat="patient in patients" value="{{patient.id}}">
+                            {{patient.name}} ({{patient.prakriti}})
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Goal *</label>
+                    <select class="form-select" ng-model="dietChartGoal" required>
+                        <option value="Weight Loss">Weight Loss</option>
+                        <option value="Weight Gain">Weight Gain</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Therapeutic">Therapeutic</option>
+                        <option value="Detox">Detox</option>
+                        <option value="Digestive Health">Digestive Health</option>
+                        <option value="Immunity Boost">Immunity Boost</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Target Calories *</label>
+                    <input type="number" class="form-control" ng-model="targetCalories" 
+                           placeholder="e.g., 2000" min="1200" max="4000" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Duration (Days) *</label>
+                    <input type="number" class="form-control" ng-model="chartDuration" 
+                           placeholder="e.g., 30" min="7" max="365" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Meal Frequency</label>
+                    <select class="form-select" ng-model="mealFrequency">
+                        <option value="3">3 meals/day</option>
+                        <option value="4">4 meals/day</option>
+                        <option value="5">5 meals/day</option>
+                        <option value="6">6 meals/day</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Special Considerations</label>
+                    <textarea class="form-control" rows="3" ng-model="specialConsiderations" 
+                              placeholder="Allergies, medical conditions, preferences..."></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Activity Level</label>
+                    <select class="form-select" ng-model="activityLevel">
+                        <option value="Sedentary">Sedentary (office job)</option>
+                        <option value="Light">Light (light exercise 1-3 days/week)</option>
+                        <option value="Moderate">Moderate (moderate exercise 3-5 days/week)</option>
+                        <option value="Active">Active (hard exercise 6-7 days/week)</option>
+                        <option value="Very Active">Very Active (very hard exercise, physical job)</option>
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-magic me-2"></i>Generate Diet Chart
+                        </button>
+                        <button type="button" class="btn btn-secondary" ng-click="showNewDietChart = false">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Generated Diet Chart Display -->
+        <div ng-show="generatedChart" class="card-body">
+            <div class="diet-chart-header d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="mb-1">Diet Chart for {{generatedChart.patientName}}</h3>
+                    <p class="text-muted mb-0">Constitutional Type: {{generatedChart.constitution}}</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-success" onclick="window.print()">
+                        <i class="fas fa-print me-2"></i>Print
+                    </button>
+                    <button class="btn btn-info" ng-click="downloadPDF()">
+                        <i class="fas fa-download me-2"></i>Download PDF
+                    </button>
+                    <button class="btn btn-primary" ng-click="exportChartData()">
+                        <i class="fas fa-file-export me-2"></i>Export Data
+                    </button>
+                    <button class="btn btn-warning" ng-click="shareChart()">
+                        <i class="fas fa-share me-2"></i>Share
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chart Summary -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="summary-card">
+                        <div class="summary-icon bg-primary">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="summary-content">
+                            <div class="summary-label">Goal</div>
+                            <div class="summary-value">{{generatedChart.goal}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="summary-card">
+                        <div class="summary-icon bg-warning">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="summary-content">
+                            <div class="summary-label">Daily Calories</div>
+                            <div class="summary-value">{{generatedChart.calories}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="summary-card">
+                        <div class="summary-icon bg-info">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="summary-content">
+                            <div class="summary-label">Duration</div>
+                            <div class="summary-value">{{generatedChart.duration}} days</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="summary-card">
+                        <div class="summary-icon bg-success">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="summary-content">
+                            <div class="summary-label">Created</div>
+                            <div class="summary-value">{{generatedChart.date}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meal Plan -->
+            <div class="meal-plan">
+                <h4 class="mb-3">
+                    <i class="fas fa-utensils me-2"></i>Daily Meal Plan
+                </h4>
+                <div class="meal-section" ng-repeat="meal in generatedChart.meals">
+                    <div class="meal-header">
+                        <h5 class="meal-title">
+                            <i class="fas fa-clock me-2"></i>{{meal.name}} 
+                            <span class="meal-time">({{meal.time}})</span>
+                        </h5>
+                        <div class="meal-calories">{{meal.totalCalories}} kcal</div>
+                    </div>
+                    
+                    <div class="meal-items">
+                        <div class="meal-item" ng-repeat="item in meal.items">
+                            <div class="item-details">
+                                <div class="item-name">{{item.name}}</div>
+                                <div class="item-quantity">{{item.quantity}}</div>
+                            </div>
+                            <div class="item-properties">
+                                <span class="property-badge" ng-class="{
+                                    'badge-hot': item.virya === 'Hot',
+                                    'badge-cold': item.virya === 'Cold'
+                                }">{{item.virya}}</span>
+                                <div class="item-calories">{{item.calories}} kcal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nutritional Analysis Charts -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h5 class="text-center mb-3">
+                            <i class="fas fa-chart-pie me-2"></i>Macronutrient Distribution
+                        </h5>
+                        <div ng-show="!generatedChart" class="chart-loading">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Loading chart...
+                        </div>
+                        <canvas id="nutrientChart" ng-show="generatedChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h5 class="text-center mb-3">
+                            <i class="fas fa-chart-radar me-2"></i>Six Tastes Balance
+                        </h5>
+                        <div ng-show="!generatedChart" class="chart-loading">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Loading chart...
+                        </div>
+                        <canvas id="rasaChart" ng-show="generatedChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="chart-container">
+                        <h5 class="text-center mb-3">
+                            <i class="fas fa-chart-bar me-2"></i>Dosha Balance
+                        </h5>
+                        <div ng-show="!generatedChart" class="chart-loading">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Loading chart...
+                        </div>
+                        <canvas id="doshaChart" ng-show="generatedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guidelines and Recommendations -->
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <div class="guidelines-section">
+                        <h5>
+                            <i class="fas fa-lightbulb me-2 text-warning"></i>Ayurvedic Guidelines
+                        </h5>
+                        <ul class="guidelines-list">
+                            <li ng-repeat="guideline in generatedChart.guidelines">{{guideline}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="guidelines-section">
+                        <h5>
+                            <i class="fas fa-leaf me-2 text-success"></i>Seasonal Recommendations
+                        </h5>
+                        <ul class="guidelines-list">
+                            <li ng-repeat="recommendation in generatedChart.seasonalRecommendations">{{recommendation}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Foods to Avoid -->
+            <div class="restrictions-section mt-4" ng-if="generatedChart.doNotEat.length">
+                <h5>
+                    <i class="fas fa-exclamation-triangle me-2 text-danger"></i>Foods to Limit or Avoid
+                </h5>
+                <div class="restriction-tags">
+                    <span class="restriction-tag" ng-repeat="restriction in generatedChart.doNotEat">
+                        {{restriction}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Diet Charts History -->
+    <div class="content-card" ng-if="dietCharts.length">
+        <div class="card-header">
+            <h4 class="card-title">
+                <i class="fas fa-history me-2 text-info"></i>Previous Diet Charts
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Goal</th>
+                            <th>Created Date</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="chart in dietCharts">
+                            <td>{{chart.patientName}}</td>
+                            <td>{{chart.goal}}</td>
+                            <td>{{chart.createdDate}}</td>
+                            <td>{{chart.chart.duration}} days</td>
+                            <td>
+                                <span class="badge bg-success">Active</span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary" ng-click="viewChart(chart)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-outline-success" ng-click="duplicateChart(chart)">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="btn btn-outline-info" ng-click="editChart(chart)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.summary-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.summary-content .summary-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.summary-content .summary-value {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.meal-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.meal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--light-beige);
+}
+
+.meal-title {
+    color: var(--text-dark);
+    margin: 0;
+    flex: 1;
+}
+
+.meal-time {
+    color: var(--text-muted);
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+.meal-calories {
+    font-weight: 600;
+    color: var(--primary-orange);
+    font-size: 1.1rem;
+}
+
+.meal-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--light-beige);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.item-details .item-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.item-details .item-quantity {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.item-properties {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.item-calories {
+    font-weight: 600;
+    color: var(--secondary-teal);
+}
+
+.chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    height: 300px;
+    position: relative;
+}
+
+.chart-container canvas {
+    max-height: 250px !important;
+}
+
+/* Chart loading state */
+.chart-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Chart error state */
+.chart-error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+    color: var(--danger-red);
+    text-align: center;
+    flex-direction: column;
+}
+
+.chart-error i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.guidelines-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    height: 100%;
+}
+
+.guidelines-list {
+    list-style: none;
+    padding: 0;
+}
+
+.guidelines-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--light-beige);
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.guidelines-list li:before {
+    content: '•';
+    color: var(--primary-orange);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.guidelines-list li:last-child {
+    border-bottom: none;
+}
+
+.restrictions-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.restriction-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.restriction-tag {
+    background: #fff5f5;
+    color: #dc3545;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    border: 1px solid #fecaca;
+}
+
+.diet-chart-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, var(--light-beige), white);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+</style>
