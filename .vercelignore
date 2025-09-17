@@ -1,0 +1,71 @@
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Database files (will be created on Vercel)
+*.db
+*.sqlite3
+nutriveda.db
+nutriveda.sqlite3
+
+# Large data files
+data/
+*.csv
+Prakriti.csv
+Prakriti_clean.csv
+Book1.csv
+data.csv
+
+# Large static files that aren't needed for deployment
+staticfiles/
+staticfiles/
+
+# Development files
+*.bat
+*.ps1
+*.sh
+start_*.py
+quick_start.py
+setup_database.py
+check_sqlite.py
+add_food_items.py
+model_bridge.py
+backend_complete.py
+simple_backend*.py
+
+# Docker files
+Dockerfile
+docker-compose.yml
+
+# Railway specific
+railway.json
+nixpacks.toml
+Procfile
+runtime.txt
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/

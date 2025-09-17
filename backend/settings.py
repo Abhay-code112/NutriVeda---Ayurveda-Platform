@@ -112,3 +112,23 @@ if os.environ.get('RAILWAY_ENVIRONMENT'):
     # Static files for Railway
     STATIC_ROOT = BASE_DIR / 'staticfiles'
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Vercel deployment settings
+if os.environ.get('VERCEL'):
+    DEBUG = False
+    ALLOWED_HOSTS = ['*']
+    
+    # Use PostgreSQL for Vercel if available, otherwise SQLite
+    if os.environ.get('DATABASE_URL'):
+        import dj_database_url
+        DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    else:
+        # Use in-memory SQLite for Vercel
+        DATABASES['default'] = {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    
+    # Static files for Vercel
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
